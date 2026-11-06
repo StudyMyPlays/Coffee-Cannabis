@@ -1,0 +1,74 @@
+.section {
+  position: relative;
+  padding-block: var(--section-y);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--green-800);
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.bgImg {
+  position: absolute;
+  inset: -10% 0;
+}
+
+.bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--green-900), rgba(15, 59, 28, 0.55) 30%, rgba(15, 59, 28, 0.72));
+}
+
+.inner {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.copy {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+
+.mark {
+  width: 3.5rem;
+  color: var(--gold-300);
+}
+
+.title {
+  font-size: var(--step-5);
+}
+
+.title em {
+  display: block;
+  color: var(--gold-200);
+}
+
+.lead {
+  max-width: 34ch;
+  color: color-mix(in oklab, var(--cream-100) 88%, transparent);
+}
+
+.formWrap {
+  padding: clamp(1.25rem, 4vw, 3rem);
+  border: 1px solid var(--line-on-field);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklab, var(--green-900) 78%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-float);
+}
+
+@media (min-width: 1024px) {
+  .inner {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--space-9);
+    align-items: center;
+  }
+}

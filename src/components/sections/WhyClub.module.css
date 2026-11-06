@@ -1,0 +1,69 @@
+.section {
+  position: relative;
+  background:
+    linear-gradient(rgba(247, 238, 219, 0.82), rgba(247, 238, 219, 0.82)),
+    url("/assets/texture-parchment.jpg") center / cover;
+  border-radius: clamp(24px, 6vw, 72px) clamp(24px, 6vw, 72px) 0 0;
+  margin-top: calc(clamp(24px, 6vw, 72px) * -1);
+  z-index: 2;
+}
+
+.pin {
+  display: grid;
+  align-items: center;
+  padding-block: var(--section-y);
+}
+
+.inner {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.statement {
+  font-size: clamp(2.1rem, 1.2rem + 4.4vw, 7rem);
+  line-height: 1.04;
+  max-width: 21ch;
+  color: var(--green-800);
+}
+
+.statement :global(.w) {
+  display: inline;
+}
+
+.em {
+  font-style: italic;
+  color: var(--green-600);
+}
+
+.break {
+  display: block;
+  height: 0.5em;
+}
+
+.divider {
+  width: min(320px, 70%);
+  color: var(--gold-500);
+}
+
+.coda {
+  display: grid;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-style: italic;
+  color: var(--ink-700);
+}
+
+@media (min-width: 1024px) and (pointer: fine) {
+  .pin {
+    min-height: 100svh;
+  }
+}
+
+@media (min-width: 1024px) {
+  .coda {
+    grid-template-columns: auto auto;
+    justify-content: start;
+    gap: var(--space-8);
+  }
+}

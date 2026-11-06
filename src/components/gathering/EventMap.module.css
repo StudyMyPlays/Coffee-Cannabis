@@ -1,0 +1,141 @@
+.wrap {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.map {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line-on-field);
+  background: var(--green-800);
+  isolation: isolate;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.preview {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 22%, rgba(15, 59, 28, 0.6) 70%),
+    repeating-linear-gradient(28deg, transparent 0 34px, rgba(210, 181, 120, 0.12) 34px 35px),
+    repeating-linear-gradient(-62deg, transparent 0 52px, rgba(210, 181, 120, 0.1) 52px 53px),
+    linear-gradient(160deg, var(--green-700), var(--green-900));
+  transition: opacity var(--dur-4) var(--ease-out);
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.pulse,
+.areaPulse {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold-200);
+  box-shadow: 0 0 0 4px rgba(226, 204, 152, 0.25);
+}
+
+.areaPulse {
+  width: 18px;
+  height: 18px;
+}
+
+.pulse::before,
+.pulse::after,
+.areaPulse::before,
+.areaPulse::after {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-200);
+  animation: map-pulse 2.8s var(--ease-out) infinite;
+}
+
+.areaPulse::before,
+.areaPulse::after {
+  inset: -40px;
+}
+
+.pulse::after,
+.areaPulse::after {
+  animation-delay: 1.4s;
+}
+
+@keyframes map-pulse {
+  from {
+    transform: scale(0.3);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.venuePin {
+  width: 22px;
+  height: 22px;
+  border-radius: 50% 50% 50% 0;
+  rotate: -45deg;
+  background: var(--gold-300);
+  border: 2px solid var(--cream-50);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.caption {
+  display: grid;
+  gap: var(--space-2);
+  font-size: var(--step--1);
+}
+
+.where {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  color: var(--cream-50);
+}
+
+.address {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.locked {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-on-field-muted);
+}
+
+.map :global(.maplibregl-ctrl-group) {
+  background: var(--cream-100);
+}
+
+.map :global(.maplibregl-ctrl-attrib) {
+  font-size: 10px;
+}
+
+.map :global(.maplibregl-cooperative-gesture-screen) {
+  font-family: var(--font-sans);
+  font-size: var(--step--1);
+  background: rgba(15, 59, 28, 0.75);
+}

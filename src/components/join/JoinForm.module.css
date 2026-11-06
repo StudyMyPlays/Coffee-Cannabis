@@ -1,0 +1,215 @@
+.form {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.field label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25em 0.8em;
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--gold-200);
+}
+
+.opt {
+  letter-spacing: 0.08em;
+  text-transform: none;
+  color: var(--text-on-field-muted);
+}
+
+.field input,
+.prefix {
+  min-height: 52px;
+  border: 1px solid color-mix(in oklab, var(--cream-100) 32%, transparent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--green-950) 50%, transparent);
+  color: var(--cream-50);
+  font-size: 1rem;
+  transition: border-color var(--dur-2) var(--ease-out);
+}
+
+.field input {
+  width: 100%;
+  padding: 0 var(--space-4);
+}
+
+.field input:hover,
+.prefix:hover {
+  border-color: color-mix(in oklab, var(--cream-100) 55%, transparent);
+}
+
+.field input:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+.field input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.prefix {
+  display: flex;
+  align-items: center;
+  padding-left: var(--space-4);
+}
+
+.prefix span {
+  color: var(--gold-300);
+}
+
+.prefix input {
+  min-height: 50px;
+  border: 0;
+  background: transparent;
+  padding-left: var(--space-2);
+}
+
+.prefix:focus-within {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+.prefix input:focus-visible {
+  outline: none;
+}
+
+.fieldError {
+  font-size: var(--step--1);
+  color: var(--danger);
+}
+
+.consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-3);
+  align-items: start;
+  font-size: var(--step--1);
+  line-height: 1.6;
+  color: color-mix(in oklab, var(--cream-100) 85%, transparent);
+}
+
+.consent input {
+  appearance: none;
+  -webkit-appearance: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin: 0.1rem 0 0;
+  border: 1px solid color-mix(in oklab, var(--cream-100) 55%, transparent);
+  border-radius: var(--radius-xs);
+  background: transparent;
+  cursor: pointer;
+  transition: background-color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+}
+
+.consent input::after {
+  content: "";
+  width: 6px;
+  height: 11px;
+  margin-top: -2px;
+  border: solid var(--green-900);
+  border-width: 0 2px 2px 0;
+  rotate: 45deg;
+  scale: 0;
+  transition: scale var(--dur-2) var(--ease-out);
+}
+
+.consent input:checked {
+  background: var(--gold-300);
+  border-color: var(--gold-300);
+}
+
+.consent input:checked::after {
+  scale: 1;
+}
+
+.consent input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.consent label {
+  cursor: pointer;
+}
+
+.consent a {
+  color: var(--cream-50);
+}
+
+.hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.status:empty {
+  display: none;
+}
+
+.status:focus {
+  outline: none;
+}
+
+.error {
+  padding: var(--space-4);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklab, #7a2a1a 35%, transparent);
+  font-size: var(--step--1);
+}
+
+.success {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid var(--line-on-field);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklab, var(--green-600) 30%, transparent);
+}
+
+.success:focus {
+  outline: none;
+}
+
+.successKicker {
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--gold-300);
+}
+
+.successTitle {
+  font-size: var(--step-4);
+}
+
+.successTitle em {
+  color: var(--gold-200);
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .full {
+    grid-column: 1 / -1;
+  }
+}

@@ -1,0 +1,11 @@
+node_modules/
+.next/
+out/
+.vercel/
+.env*.local
+.env
+*.tsbuildinfo
+next-env.d.ts
+# local adapter runtime data (members, RSVPs) — never commit personal data
+.data/
+public/vendor/

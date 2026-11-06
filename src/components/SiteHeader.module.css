@@ -1,0 +1,119 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: var(--z-header);
+  color: var(--cream-100);
+  transition:
+    background-color var(--dur-3) var(--ease-out),
+    box-shadow var(--dur-3) var(--ease-out);
+}
+
+.header::before {
+  /* soft legibility veil over the hero image */
+  content: "";
+  position: absolute;
+  inset: 0 0 -40%;
+  background: linear-gradient(to bottom, rgba(10, 40, 18, 0.55), transparent);
+  pointer-events: none;
+  transition: opacity var(--dur-3) var(--ease-out);
+}
+
+.solid {
+  background-color: color-mix(in oklab, var(--green-900) 92%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 var(--line-on-field);
+}
+
+.solid::before {
+  opacity: 0;
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  max-width: calc(var(--content-max) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding: var(--space-3) var(--gutter);
+  min-height: 68px;
+}
+
+.home {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--gold-300);
+  text-decoration: none;
+  margin-right: auto;
+  min-height: 44px;
+}
+
+.mark {
+  width: 2.5rem;
+}
+
+.wordmark {
+  display: none;
+  font-family: var(--font-sans);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--cream-100);
+}
+
+.nav {
+  display: none;
+}
+
+.nav ul {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.nav a {
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  text-decoration: none;
+  padding-block: var(--space-2);
+  background-image: linear-gradient(var(--gold-300), var(--gold-300));
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size var(--dur-3) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .nav a:hover {
+    background-size: 100% 1px;
+  }
+}
+
+.cta {
+  min-height: 44px;
+  padding-inline: 1.3em;
+  font-size: var(--step--2);
+}
+
+@media (min-width: 640px) {
+  .wordmark {
+    display: inline;
+  }
+}
+
+@media (min-width: 1024px) {
+  .nav {
+    display: block;
+  }
+  .wordmark {
+    display: none;
+  }
+}
+
+@media (min-width: 1280px) {
+  .wordmark {
+    display: inline;
+  }
+}

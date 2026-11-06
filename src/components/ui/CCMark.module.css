@@ -1,0 +1,8 @@
+.mark {
+  display: inline-block;
+  aspect-ratio: 1;
+  width: 3rem;
+  background-color: currentColor;
+  -webkit-mask: url("/assets/logo/cc-monogram.svg") center / contain no-repeat;
+  mask: url("/assets/logo/cc-monogram.svg") center / contain no-repeat;
+}

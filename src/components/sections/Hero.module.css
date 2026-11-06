@@ -1,0 +1,343 @@
+.hero {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: max(100svh, 640px);
+  padding: 6.5rem var(--gutter) 5.5rem;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--cream-100);
+  background: var(--green-800);
+}
+
+.bg {
+  position: absolute;
+  inset: -4% 0;
+  z-index: -3;
+  transform-origin: 50% 30%;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(70% 55% at 50% 48%, rgba(20, 80, 36, 0.15), rgba(10, 40, 18, 0.55) 100%),
+    linear-gradient(to bottom, transparent 60%, rgba(15, 59, 28, 0.85));
+}
+
+.drift {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  color: var(--gold-300);
+  pointer-events: none;
+}
+
+.glyphA,
+.glyphB {
+  position: absolute;
+  opacity: 0.09;
+}
+
+.glyphA {
+  width: min(52vw, 520px);
+  top: 8%;
+  left: -14%;
+  rotate: -18deg;
+}
+
+.glyphB {
+  width: min(42vw, 420px);
+  bottom: -6%;
+  right: -10%;
+  rotate: 160deg;
+}
+
+/* ---- Bandana accent (supplied artwork, gold-tinted mask) ---- */
+.bandana {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: min(118vw, 92svh, 900px);
+  aspect-ratio: 1;
+  translate: -50% -48%;
+  background-color: var(--gold-300);
+  -webkit-mask: url("/assets/pattern/paisley-border-mask.png") center / contain no-repeat;
+  mask: url("/assets/pattern/paisley-border-mask.png") center / contain no-repeat;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .bandana {
+    opacity: 0.2;
+  }
+}
+
+/* ---- Paisley frame ---- */
+.frame {
+  --inset: clamp(0.75rem, 2.5vw, 2rem);
+  position: absolute;
+  inset: calc(var(--inset) + 56px) var(--inset) var(--inset);
+  pointer-events: none;
+  color: var(--gold-300);
+}
+
+.rule {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, var(--gold-400) 12%, var(--gold-400) 88%, transparent);
+  opacity: 0.75;
+}
+
+.ruleTop,
+.ruleBottom {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.ruleTop {
+  top: 0;
+  box-shadow: 0 5px 0 -4px var(--gold-400);
+}
+
+.ruleBottom {
+  bottom: 0;
+  box-shadow: 0 -5px 0 -4px var(--gold-400);
+}
+
+.ruleLeft,
+.ruleRight {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--gold-400) 12%, var(--gold-400) 88%, transparent);
+  transform-origin: 50% 50%;
+}
+
+.ruleLeft {
+  left: 0;
+}
+
+.ruleRight {
+  right: 0;
+}
+
+.corner {
+  position: absolute;
+  width: clamp(64px, 12vw, 150px);
+  height: auto;
+}
+
+.tl {
+  top: -6px;
+  left: -6px;
+}
+.tr {
+  top: -6px;
+  right: -6px;
+}
+.bl {
+  bottom: -6px;
+  left: -6px;
+}
+.br {
+  bottom: -6px;
+  right: -6px;
+}
+
+/* ---- Content ---- */
+.content {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-5);
+  max-width: 54rem;
+  text-align: center;
+}
+
+.mark {
+  width: clamp(4.5rem, 10vw, 7rem);
+  color: var(--gold-300);
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.25));
+}
+
+.eyebrow {
+  color: var(--gold-200);
+}
+
+.eyebrow::before {
+  display: none;
+}
+
+.title {
+  font-size: var(--step-6);
+  font-weight: 400;
+  line-height: 0.95;
+  text-shadow: 0 2px 40px rgba(5, 25, 11, 0.4);
+}
+
+.title em {
+  color: var(--gold-200);
+}
+
+.support {
+  max-width: 36rem;
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: color-mix(in oklab, var(--cream-100) 90%, transparent);
+  text-wrap: pretty;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.ctas > * {
+  flex: 1 1 13rem;
+  max-width: 16rem;
+}
+
+/* ---- Next-gathering ticker ---- */
+.ticker {
+  position: absolute;
+  bottom: clamp(1.4rem, 3vw, 2.6rem);
+  left: 50%;
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: calc(100% - 2 * var(--gutter) - 2rem);
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  font-size: var(--step--2);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--cream-100);
+  white-space: nowrap;
+  border-radius: var(--radius-pill);
+  background: color-mix(in oklab, var(--green-900) 55%, transparent);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.ticker span:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.where {
+  display: none;
+}
+
+@media (min-width: 480px) {
+  .where {
+    display: inline;
+  }
+}
+
+.pulse {
+  position: relative;
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold-200);
+}
+
+.pulse::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-200);
+  animation: pulse 2.4s var(--ease-out) infinite;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.4);
+    opacity: 1;
+  }
+  to {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.arrow {
+  flex: none;
+}
+
+@media (max-width: 420px) {
+  .ctas > * {
+    max-width: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding-block: 8rem 7rem;
+  }
+}
+
+/* ---- Intro (CSS-only: paints immediately, no JS dependency) ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .bg img {
+    animation: hero-settle 2.4s var(--ease-out) both;
+  }
+  .bandana {
+    animation: hero-bandana 2.8s var(--ease-out) 0.1s both;
+  }
+  .rule {
+    animation: hero-rule 1.6s var(--ease-in-out) 0.15s both;
+  }
+  .ruleLeft,
+  .ruleRight {
+    animation-name: hero-rule-y;
+  }
+  .content > [data-hero-intro],
+  .ticker {
+    animation: hero-rise 1.3s var(--ease-out) both;
+    animation-delay: calc(0.25s + var(--i, 0) * 0.11s);
+  }
+}
+
+@keyframes hero-settle {
+  from {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes hero-bandana {
+  from {
+    opacity: 0;
+    transform: scale(0.92) rotate(-4deg);
+  }
+}
+
+@keyframes hero-rule {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes hero-rule-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}

@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Coffee & Cannabis Club — design tokens (single source of truth)
+   Colors, type, spacing, radii, elevation and motion. Components consume
+   these variables only; never hard-code brand values elsewhere.
+   ========================================================================== */
+
+:root {
+  /* ---- Color: lush succulent green (never black-green, never sage) ---- */
+  --green-950: #0b2e15;   /* deepest shadow tone, used for overlays only */
+  --green-900: #0f3b1c;
+  --green-800: #145024;   /* primary field */
+  --green-700: #1a6330;
+  --green-600: #22783a;   /* primary green */
+  --green-500: #2e8f48;
+  --green-400: #4aa862;   /* alive highlight */
+  --green-300: #7cc48a;
+
+  /* ---- Cream / parchment ---- */
+  --cream-50: #fcf7ec;
+  --cream-100: #f7eedb;
+  --cream-200: #efe1c2;   /* parchment */
+  --cream-300: #e3cfa5;
+
+  /* ---- Antique gold (sparingly) ---- */
+  --gold-200: #e2cc98;
+  --gold-300: #d2b578;
+  --gold-400: #bf9c5c;    /* antique gold */
+  --gold-500: #a3824a;
+  --gold-600: #85683a;    /* gold on cream (AA for large text) */
+
+  /* ---- Ink ---- */
+  --ink-900: #132a1b;     /* body text on cream */
+  --ink-700: #2f4636;
+  --ink-500: #5a6b5e;
+
+  /* ---- Ritual accents (drink identities) ---- */
+  --accent-goddess: #8db35a;
+  --accent-purp: #7a5aa6;
+  --accent-gold-drip: #9b6a3c;
+  --accent-velvet: #d98a99;
+  --accent-mile: #3f9a4f;
+
+  /* ---- Semantic ---- */
+  --surface-field: var(--green-800);
+  --surface-deep: var(--green-900);
+  --surface-paper: var(--cream-100);
+  --text-on-field: var(--cream-100);
+  --text-on-field-muted: color-mix(in oklab, var(--cream-100) 72%, var(--green-800));
+  --text-on-paper: var(--ink-900);
+  --text-on-paper-muted: var(--ink-700);
+  --line-on-field: color-mix(in oklab, var(--gold-300) 45%, transparent);
+  --line-on-paper: color-mix(in oklab, var(--gold-500) 45%, transparent);
+  --focus-ring: var(--gold-200);
+  --danger: #e7a08f;
+  --danger-on-paper: #9d3b26;
+  --success: var(--green-300);
+
+  /* ---- Typography ---- */
+  --font-display: var(--font-cormorant), "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans: var(--font-jost), "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Fluid type scale (390px → 1536px) */
+  --step--2: clamp(0.72rem, 0.70rem + 0.08vw, 0.78rem);   /* eyebrow / legal */
+  --step--1: clamp(0.84rem, 0.81rem + 0.12vw, 0.94rem);   /* small */
+  --step-0: clamp(1rem, 0.96rem + 0.18vw, 1.125rem);        /* body */
+  --step-1: clamp(1.2rem, 1.12rem + 0.36vw, 1.45rem);       /* lead */
+  --step-2: clamp(1.5rem, 1.34rem + 0.7vw, 2.05rem);        /* h4 */
+  --step-3: clamp(1.9rem, 1.6rem + 1.3vw, 2.9rem);          /* h3 */
+  --step-4: clamp(2.4rem, 1.9rem + 2.3vw, 4.1rem);          /* h2 */
+  --step-5: clamp(3rem, 2.2rem + 3.6vw, 5.9rem);            /* display */
+  --step-6: clamp(3.4rem, 2.3rem + 5.2vw, 8.2rem);          /* hero */
+
+  --leading-tight: 1.02;
+  --leading-snug: 1.18;
+  --leading-body: 1.6;
+  --tracking-eyebrow: 0.28em;
+  --tracking-button: 0.2em;
+  --tracking-display: -0.01em;
+
+  /* ---- Spacing (4px base, fluid section rhythm) ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+  --section-y: clamp(5rem, 3.5rem + 7vw, 11rem);
+  --gutter: clamp(1rem, 0.6rem + 2.2vw, 3rem);
+  --content-max: 1360px;
+  --measure: 38ch;
+
+  /* ---- Radii ---- */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+  --radius-arch: 999px 999px 6px 6px;
+  --radius-pill: 999px;
+
+  /* ---- Elevation ---- */
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 30px 60px -30px rgba(5, 25, 11, 0.65);
+  --shadow-float: 0 40px 80px -40px rgba(5, 25, 11, 0.8);
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-soft: cubic-bezier(0.33, 0.0, 0.2, 1);
+  --dur-1: 160ms;
+  --dur-2: 320ms;
+  --dur-3: 600ms;
+  --dur-4: 1000ms;
+  --dur-5: 1600ms;
+  --drift-period: 48s;
+
+  /* ---- Layers ---- */
+  --z-base: 1;
+  --z-raised: 10;
+  --z-header: 50;
+  --z-modal: 100;
+}

@@ -1,0 +1,153 @@
+.section {
+  position: relative;
+  padding-block: var(--section-y);
+  background:
+    radial-gradient(60% 40% at 85% 10%, rgba(74, 168, 98, 0.18), transparent 70%),
+    var(--green-800);
+  overflow: hidden;
+}
+
+.head {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 44rem;
+  margin-bottom: clamp(3rem, 8vw, 8rem);
+}
+
+.title {
+  font-size: var(--step-5);
+}
+
+.title em {
+  color: var(--gold-200);
+}
+
+.intro {
+  color: var(--text-on-field-muted);
+}
+
+.list {
+  display: grid;
+  gap: clamp(4.5rem, 10vw, 10rem);
+}
+
+.spread {
+  position: relative;
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.spread::before {
+  /* accent glow behind each ritual */
+  content: "";
+  position: absolute;
+  inset: 10% -10%;
+  z-index: 0;
+  background: radial-gradient(45% 50% at 30% 50%, color-mix(in oklab, var(--accent) 28%, transparent), transparent 70%);
+  pointer-events: none;
+}
+
+.visualWrap {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 999px 999px var(--radius-md) var(--radius-md);
+  box-shadow: var(--shadow-float);
+  outline: 1px solid var(--line-on-field);
+  outline-offset: 8px;
+}
+
+.visual {
+  position: absolute;
+  inset: -8% 0;
+}
+
+.visual > * {
+  border-radius: inherit;
+}
+
+.copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+  min-width: 0;
+}
+
+.index {
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--gold-300);
+}
+
+.index span {
+  color: var(--cream-100);
+}
+
+.name {
+  font-size: clamp(2.8rem, 1.8rem + 4.6vw, 6.8rem);
+  line-height: 0.95;
+  overflow-wrap: anywhere;
+}
+
+.name sup {
+  font-size: 0.26em;
+  vertical-align: super;
+  color: var(--gold-300);
+}
+
+.profile {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-style: italic;
+  color: var(--gold-200);
+}
+
+.sensory {
+  max-width: 40ch;
+  color: color-mix(in oklab, var(--cream-100) 88%, transparent);
+}
+
+.notes {
+  font-size: var(--step--1);
+  letter-spacing: 0.06em;
+  color: var(--text-on-field-muted);
+}
+
+.secret {
+  display: grid;
+  gap: var(--space-7);
+  justify-items: center;
+  margin-top: clamp(5rem, 10vw, 10rem);
+}
+
+.divider {
+  width: min(360px, 80%);
+  color: var(--gold-400);
+}
+
+@media (min-width: 768px) {
+  .spread {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(2rem, 6vw, 7rem);
+  }
+  .spread:nth-child(even) {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  }
+  .spread:nth-child(even) .visualWrap {
+    order: 2;
+  }
+  .spread:nth-child(even)::before {
+    background: radial-gradient(45% 50% at 70% 50%, color-mix(in oklab, var(--accent) 28%, transparent), transparent 70%);
+  }
+}
+
+@media (min-width: 1280px) {
+  .spread:nth-child(odd) .copy {
+    padding-left: var(--space-6);
+  }
+}

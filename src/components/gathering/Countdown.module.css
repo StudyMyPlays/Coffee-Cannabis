@@ -1,0 +1,77 @@
+.units {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.35rem, 1.5vw, 0.9rem);
+}
+
+.unit {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.value {
+  display: block;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.4rem);
+  line-height: 1;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--cream-50);
+}
+
+.digits {
+  display: block;
+  animation: tick var(--dur-3) var(--ease-out);
+}
+
+@keyframes tick {
+  from {
+    transform: translateY(-38%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.label {
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--gold-300);
+}
+
+.sep {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 1.2rem + 2.4vw, 3.2rem);
+  line-height: 1.15;
+  color: var(--gold-400);
+  opacity: 0.6;
+}
+
+.done {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  color: var(--cream-50);
+}
+
+.liveDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold-200);
+  box-shadow: 0 0 0 0 var(--gold-200);
+  animation: live 2s var(--ease-out) infinite;
+}
+
+@keyframes live {
+  to {
+    box-shadow: 0 0 0 14px transparent;
+  }
+}
