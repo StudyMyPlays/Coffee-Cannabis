@@ -1,0 +1,23 @@
+[
+  {
+    "id": "5f0b9a52-1c1e-4d8e-9a43-0c6f2d7e0001",
+    "slug": "gathering-01",
+    "number": 1,
+    "title": "Gathering No. 01",
+    "description": "An evening of exceptional drinks, good music and people worth meeting. Come alone. Leave knowing somebody.",
+    "neighborhood": null,
+    "neighborhoodCenter": null,
+    "startsAt": "2026-12-05T18:00",
+    "endsAt": "2026-12-05T22:00",
+    "capacity": 60,
+    "status": "upcoming",
+    "address": null,
+    "venueLocation": null,
+    "addressReleased": false,
+    "addressReleaseAt": "2026-12-04T12:00",
+    "drinkSlug": "green-goddess",
+    "recap": null,
+    "isPlaceholder": true,
+    "updatedAt": "2026-11-06T00:00:00.000Z"
+  }
+]

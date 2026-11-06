@@ -1,0 +1,182 @@
+.panel {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.capacity {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.capacityRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  font-size: var(--step--1);
+}
+
+.capacityRow strong {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 500;
+  font-variant-numeric: lining-nums;
+  color: var(--cream-50);
+}
+
+.capacityNote {
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--gold-300);
+  align-self: center;
+}
+
+.bar {
+  position: relative;
+  height: 3px;
+  background: color-mix(in oklab, var(--cream-100) 16%, transparent);
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+}
+
+.bar span {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--gold-500), var(--gold-200));
+  transform-origin: 0 50%;
+  transition: transform var(--dur-4) var(--ease-out);
+}
+
+.status:empty {
+  display: none;
+}
+
+.status:focus {
+  outline: none;
+}
+
+.success,
+.error {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--step--1);
+  line-height: 1.6;
+}
+
+.success {
+  border: 1px solid var(--line-on-field);
+  background: color-mix(in oklab, var(--green-600) 40%, transparent);
+}
+
+.success strong {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 500;
+  color: var(--cream-50);
+}
+
+.error {
+  border: 1px solid var(--danger);
+  color: var(--cream-50);
+  background: color-mix(in oklab, #7a2a1a 35%, transparent);
+}
+
+.form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.fields {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.field label {
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--gold-200);
+}
+
+.field input {
+  min-height: 52px;
+  padding: 0 var(--space-4);
+  border: 1px solid color-mix(in oklab, var(--cream-100) 32%, transparent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--green-950) 45%, transparent);
+  color: var(--cream-50);
+  font-size: 1rem; /* ≥16px prevents iOS zoom */
+  transition: border-color var(--dur-2) var(--ease-out);
+}
+
+.field input:hover {
+  border-color: color-mix(in oklab, var(--cream-100) 55%, transparent);
+}
+
+.field input:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+.field input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.fieldError {
+  font-size: var(--step--1);
+  color: var(--danger);
+}
+
+.hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.note {
+  font-size: var(--step--2);
+  line-height: 1.7;
+  color: var(--text-on-field-muted);
+}
+
+.note a {
+  color: var(--cream-100);
+}
+
+.have {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--line-on-field);
+  border-radius: var(--radius-md);
+}
+
+.have button {
+  border: 0;
+  background-color: transparent;
+  color: var(--gold-200);
+}
+
+.closed {
+  color: var(--text-on-field-muted);
+}
+
+@media (min-width: 640px) {
+  .fields {
+    grid-template-columns: 1fr 1fr;
+  }
+}

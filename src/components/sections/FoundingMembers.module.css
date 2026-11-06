@@ -1,0 +1,121 @@
+.section {
+  position: relative;
+  padding-block: var(--section-y);
+  overflow: hidden;
+  background:
+    radial-gradient(60% 50% at 15% 40%, rgba(191, 156, 92, 0.16), transparent 70%),
+    var(--cream-100);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+.cardCol {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: center;
+}
+
+.stage {
+  width: 100%;
+  perspective: 1200px;
+}
+
+.card {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 50px 80px -40px rgba(19, 42, 27, 0.55);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.counter {
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  color: var(--ink-700);
+  text-align: center;
+}
+
+.counter strong {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 500;
+  font-variant-numeric: lining-nums;
+  color: var(--green-700);
+  margin-right: 0.15em;
+}
+
+.copy {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: start;
+}
+
+.title {
+  font-size: var(--step-4);
+  color: var(--green-800);
+}
+
+.title em {
+  color: var(--green-600);
+}
+
+.lead {
+  max-width: 36ch;
+  color: var(--ink-700);
+}
+
+.benefits {
+  display: grid;
+  gap: var(--space-5);
+  margin-block: var(--space-3);
+}
+
+.benefits li {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.glyph {
+  width: 1.4rem;
+  margin-top: 0.3rem;
+  color: var(--gold-500);
+}
+
+.benefits h3 {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--green-800);
+}
+
+.benefits p {
+  font-size: var(--step--1);
+  color: var(--ink-700);
+}
+
+@media (min-width: 640px) {
+  .benefits {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-9);
+  }
+  .cardCol {
+    position: sticky;
+    top: 8rem;
+  }
+}

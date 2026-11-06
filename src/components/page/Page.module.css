@@ -1,0 +1,96 @@
+.hero {
+  padding: clamp(7.5rem, 14vw, 11rem) 0 var(--space-7);
+  background:
+    radial-gradient(60% 80% at 80% 0%, rgba(74, 168, 98, 0.22), transparent 70%),
+    var(--green-800);
+}
+
+.hero :global(.container) {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.title {
+  font-size: var(--step-5);
+  max-width: 18ch;
+}
+
+.title em {
+  color: var(--gold-200);
+}
+
+.intro {
+  max-width: 44rem;
+  font-size: var(--step-1);
+  color: var(--text-on-field-muted);
+}
+
+.divider {
+  width: min(300px, 70%);
+  margin-top: var(--space-4);
+  color: var(--gold-400);
+}
+
+.body {
+  padding-block: var(--space-8) var(--section-y);
+  background: var(--green-800);
+}
+
+.paper {
+  padding-block: var(--space-8) var(--section-y);
+}
+
+.prose {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 68ch;
+}
+
+.prose h2 {
+  margin-top: var(--space-5);
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 500;
+  color: var(--green-800);
+}
+
+.prose ul {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: 1.2em;
+  list-style: disc;
+}
+
+.notice {
+  padding: var(--space-4) var(--space-5);
+  border: 1px dashed var(--gold-600);
+  border-radius: var(--radius-md);
+  font-size: var(--step--1);
+  color: var(--ink-700);
+}
+
+.panel {
+  max-width: 44rem;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  border: 1px solid var(--line-on-field);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklab, var(--green-900) 70%, transparent);
+}
+
+.split {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.stack {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+
+@media (min-width: 1024px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-9);
+  }
+}

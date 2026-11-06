@@ -1,0 +1,65 @@
+/* Paisley frame: four corner flourishes joined by a thin double rule.
+   Rule offsets match the corner artwork (lines at 4/160 and 8/160 of the corner size). */
+
+.frame {
+  --paisley-corner: clamp(56px, 9vw, 128px);
+  --_rule-a: calc(var(--paisley-corner) * 0.025); /* outer line */
+  --_rule-gap: calc(var(--paisley-corner) * 0.025); /* distance to inner line */
+  position: relative;
+  isolation: isolate;
+  padding: var(--paisley-inset, calc(var(--paisley-corner) * 0.6));
+}
+
+.ornament {
+  color: var(--paisley-color, currentColor);
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.corner {
+  width: var(--paisley-corner);
+  height: var(--paisley-corner);
+  display: block;
+  overflow: visible;
+}
+
+.tl { top: 0; left: 0; }
+.tr { top: 0; right: 0; }
+.bl { bottom: 0; left: 0; }
+.br { bottom: 0; right: 0; }
+
+/* Double rule: two 1px lines drawn as the top/bottom (or left/right) borders of a thin box. */
+.rule {
+  box-sizing: border-box;
+  border: 0 solid currentColor;
+  opacity: 0.85;
+}
+
+.ruleTop,
+.ruleBottom {
+  left: var(--paisley-corner);
+  right: var(--paisley-corner);
+  height: calc(var(--_rule-gap) + 1px);
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+}
+
+.ruleTop { top: calc(var(--_rule-a) - 0.5px); }
+.ruleBottom { bottom: calc(var(--_rule-a) - 0.5px); }
+
+.ruleLeft,
+.ruleRight {
+  top: var(--paisley-corner);
+  bottom: var(--paisley-corner);
+  width: calc(var(--_rule-gap) + 1px);
+  border-left-width: 1px;
+  border-right-width: 1px;
+}
+
+.ruleLeft { left: calc(var(--_rule-a) - 0.5px); }
+.ruleRight { right: calc(var(--_rule-a) - 0.5px); }
+
+.content {
+  position: relative;
+}

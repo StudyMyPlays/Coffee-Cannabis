@@ -1,0 +1,57 @@
+.img {
+  object-fit: cover;
+}
+
+.placeholder {
+  --tint: var(--green-600);
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 115%, color-mix(in oklab, var(--tint) 75%, transparent), transparent 60%),
+    radial-gradient(60% 50% at 30% 20%, color-mix(in oklab, var(--cream-100) 18%, transparent), transparent 70%),
+    linear-gradient(160deg, var(--green-700), var(--green-900));
+}
+
+.placeholder::before {
+  /* CC watermark keeps placeholders on-brand */
+  content: "";
+  position: absolute;
+  inset: 22% 26%;
+  background-color: color-mix(in oklab, var(--gold-300) 30%, transparent);
+  -webkit-mask: url("/assets/logo/cc-monogram.svg") center / contain no-repeat;
+  mask: url("/assets/logo/cc-monogram.svg") center / contain no-repeat;
+}
+
+.placeholder::after {
+  content: "";
+  position: absolute;
+  inset: var(--space-3);
+  border: 1px solid color-mix(in oklab, var(--gold-300) 35%, transparent);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.label {
+  /* sits below the watermark, inside any parallax overscan */
+  position: absolute;
+  z-index: 1;
+  top: 74%;
+  left: 50%;
+  translate: -50% 0;
+  width: max-content;
+  max-width: calc(100% - 2 * var(--space-4));
+  padding: 0.3em 0.8em;
+  border: 1px dashed color-mix(in oklab, var(--cream-100) 60%, transparent);
+  border-radius: var(--radius-md);
+  text-align: center;
+  overflow-wrap: anywhere;
+  font-family: var(--font-sans);
+  font-size: clamp(0.62rem, 0.56rem + 0.3vw, 0.75rem);
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cream-100);
+  background: color-mix(in oklab, var(--green-900) 55%, transparent);
+}
