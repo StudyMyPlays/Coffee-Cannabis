@@ -44,17 +44,10 @@ export const IMAGE_MANIFEST = {
     width: 1200,
     height: 630,
     blurDataURL:
-      "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAABQAQCdASoQAAgAA4BaJQBOgC6gAP7xXfI3xnCdW7Y3r+0AFXQCMMhQfFfAAA==",
+      "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAAAQAgCdASoQAAgAA4BaJYgCdAELYcJ2USeAAP7zByGL2RO72c0NPfHjW+0iEHjFhunoAA==",
   },
-  "event-frame": {
-    src: "/assets/event-frame.jpg",
-    width: 1672,
-    height: 941,
-    blurDataURL:
-      "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACQAQCdASoQAAkAA4BaJZF9qRgAiwAA/vDJ9Reqjb3G6+NV2pIw0a9VU6q+AAAA",
-  },
-  "paisley-frame-square": {
-    src: "/assets/paisley-frame-square.jpg",
+  "paisley-border": {
+    src: "/assets/paisley-border.jpg",
     width: 1254,
     height: 1254,
     blurDataURL:

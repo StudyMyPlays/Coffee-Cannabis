@@ -54,6 +54,28 @@
   rotate: 160deg;
 }
 
+/* ---- Bandana accent (supplied artwork, gold-tinted mask) ---- */
+.bandana {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: min(118vw, 92svh, 900px);
+  aspect-ratio: 1;
+  translate: -50% -48%;
+  background-color: var(--gold-300);
+  -webkit-mask: url("/assets/pattern/paisley-border-mask.png") center / contain no-repeat;
+  mask: url("/assets/pattern/paisley-border-mask.png") center / contain no-repeat;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .bandana {
+    opacity: 0.2;
+  }
+}
+
 /* ---- Paisley frame ---- */
 .frame {
   --inset: clamp(0.75rem, 2.5vw, 2rem);
@@ -271,6 +293,9 @@
   .bg img {
     animation: hero-settle 2.4s var(--ease-out) both;
   }
+  .bandana {
+    animation: hero-bandana 2.8s var(--ease-out) 0.1s both;
+  }
   .rule {
     animation: hero-rule 1.6s var(--ease-in-out) 0.15s both;
   }
@@ -288,6 +313,13 @@
 @keyframes hero-settle {
   from {
     transform: scale(1.08);
+  }
+}
+
+@keyframes hero-bandana {
+  from {
+    opacity: 0;
+    transform: scale(0.92) rotate(-4deg);
   }
 }
 

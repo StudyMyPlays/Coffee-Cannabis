@@ -55,8 +55,9 @@ export const MANIFEST_NAMES = [
   "event-backdrop",
   "member-card",
   "og-share",
-  "event-frame",
-  "paisley-frame-square",
+  // Raster bandana frame (manifest item "pattern/paisley-border"). The site's
+  // paisley system stays vector; this is used as one hero accent via a mask.
+  "paisley-border",
 ];
 
 /** Reference renders shipped in the repo root. */
@@ -66,8 +67,9 @@ const SOURCE_MAP = {
   "texture-parchment": "95C6A162-7569-4BFF-BF3C-014DEB1AD243.png",
   "event-backdrop": "3A05C313-81A0-48C6-A42C-738970B57597.png",
   "member-card": "164A8C38-56A2-42D4-A38D-A57A076D3F33.png",
-  "event-frame": "3E84E534-F9D0-4EBD-88AE-26F0640B5F16.png",
-  "paisley-frame-square": "0137140B-7D27-4636-9219-88BDF453A27F.png",
+  "paisley-border": "0137140B-7D27-4636-9219-88BDF453A27F.png",
+  // Background art for the composed link preview (supplied as og-share).
+  "og-frame": "3E84E534-F9D0-4EBD-88AE-26F0640B5F16.png",
 };
 
 /** Serif stack for SVG text rendered by librsvg (system fonts only). */
@@ -134,21 +136,19 @@ async function tintedMonogram(color) {
   return Buffer.from(svg.replace(/currentColor/g, color));
 }
 
-async function composeOgShare(heroFile) {
+async function composeOgShare(frameFile) {
   const W = 1200;
   const H = 630;
-  const background = await sharp(heroFile)
-    .resize(W, H, { fit: "cover", position: "attention" })
-    .modulate({ brightness: 0.78, saturation: 0.95 })
-    .toBuffer();
+  // Fill (not crop-to-attention) so all four paisley corners stay in frame.
+  const background = await sharp(frameFile).resize(W, H, { fit: "fill" }).toBuffer();
 
   // Gentle vignette + darkening behind the type for legibility.
   const shade = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
   <defs>
     <radialGradient id="v" cx="50%" cy="46%" r="75%">
-      <stop offset="0" stop-color="#0b2e15" stop-opacity="0.15"/>
-      <stop offset="0.7" stop-color="#0b2e15" stop-opacity="0.45"/>
-      <stop offset="1" stop-color="#0b2e15" stop-opacity="0.7"/>
+      <stop offset="0" stop-color="#0b2e15" stop-opacity="0.2"/>
+      <stop offset="0.6" stop-color="#0b2e15" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#0b2e15" stop-opacity="0"/>
     </radialGradient>
   </defs>
   <rect width="${W}" height="${H}" fill="url(#v)"/>
@@ -167,8 +167,6 @@ async function composeOgShare(heroFile) {
   const ruleY = 402;
   const text = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
   <g fill="none" stroke="${GOLD}" stroke-width="1.2" opacity="0.9">
-    <rect x="28" y="28" width="${W - 56}" height="${H - 56}"/>
-    <rect x="36" y="36" width="${W - 72}" height="${H - 72}" stroke-width="0.6"/>
     <line x1="${W / 2 - 150}" y1="${ruleY}" x2="${W / 2 - 14}" y2="${ruleY}"/>
     <line x1="${W / 2 + 14}" y1="${ruleY}" x2="${W / 2 + 150}" y2="${ruleY}"/>
   </g>
@@ -269,17 +267,38 @@ async function main() {
     }
   }
 
-  // og-share: composed from hero-field + monogram when no explicit source exists.
+  // og-share: an /assets/og-share.* override is used as-is; otherwise the
+  // supplied paisley-cornered felt (og-frame) gets the monogram + tagline.
   if (!entries["og-share"]) {
-    const hero = await resolveSource("hero-field");
-    if (hero && existsSync(LOGO_SVG)) {
-      const composed = await composeOgShare(hero.file);
+    const frame = await resolveSource("og-frame");
+    if (frame && existsSync(LOGO_SVG)) {
+      const composed = await composeOgShare(frame.file);
       const entry = await writeJpeg("og-share", composed);
       entries["og-share"] = entry;
-      report.push(["og-share", `${entry.width}×${entry.height}`, kb(entry.bytes), "composed: hero-field + monogram"]);
+      report.push(["og-share", `${entry.width}×${entry.height}`, kb(entry.bytes), `composed: ${rel(frame.file)} + monogram`]);
     } else {
       missing.push("og-share");
     }
+  }
+
+  // Gold-only luminance mask of the bandana frame for CSS mask-image tinting.
+  const border = await resolveSource("paisley-border");
+  if (border) {
+    const maskFile = path.join(OUT_DIR, "pattern", "paisley-border-mask.png");
+    await mkdir(path.dirname(maskFile), { recursive: true });
+    // Red channel separates antique gold (R≈200+) from the green field (R≈20).
+    // Written as alpha on white: CSS masks (and Safari's -webkit-mask) read alpha.
+    const alpha = await sharp(border.file)
+      .resize({ width: 900, withoutEnlargement: true })
+      .extractChannel("red")
+      .linear(1.6, -60)
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+    await sharp({ create: { width: alpha.info.width, height: alpha.info.height, channels: 3, background: "#ffffff" } })
+      .joinChannel(alpha.data, { raw: { width: alpha.info.width, height: alpha.info.height, channels: 1 } })
+      .png({ compressionLevel: 9, palette: true, colours: 32 })
+      .toFile(maskFile);
+    report.push(["paisley-border mask", "900²", kb((await readFile(maskFile)).length), rel(maskFile)]);
   }
 
   // Keep manifest key order stable.

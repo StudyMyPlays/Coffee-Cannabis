@@ -59,7 +59,13 @@ run `npm run images`. Files there take precedence over the original uploads in t
 Manifest: `hero-field`, `texture-parchment`, `texture-green-grain`, `drink-green-goddess`,
 `drink-purp`, `drink-gold-drip`, `drink-pink-velvet`, `drink-green-mile`, `community-table`,
 `community-dj`, `community-arrival`, `community-hands`, `event-backdrop`, `member-card`,
-`og-share`. Missing images render as clearly labeled "Photo pending" placeholders.
+`og-share`, `paisley-border`. Missing images render as clearly labeled "Photo pending" placeholders.
+
+- `og-share`: a finished file at `/assets/og-share.*` is used as-is. Otherwise the supplied
+  paisley-cornered felt artwork (`og-frame`) gets the CC mark + "Find your people." composited on.
+- `paisley-border` (the supplied bandana frame) is turned into a gold-only mask
+  (`public/assets/pattern/paisley-border-mask.png`) used as the hero accent. The site-wide
+  paisley borders, dividers and corners stay vector (`src/components/paisley/`).
 Next/Image serves AVIF/WebP with responsive `srcset` automatically.
 
 To replace the logo, overwrite `public/assets/logo/cc-monogram.svg` (single color,

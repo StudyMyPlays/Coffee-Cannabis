@@ -24,6 +24,9 @@ export function Hero({ next }: { next: PublicGathering | null }) {
         <PaisleyGlyph className={`${styles.glyphB} drift drift--slow`} />
       </div>
 
+      {/* Supplied bandana frame (manifest: paisley-border), tinted gold via mask. */}
+      <div className={styles.bandana} aria-hidden="true" />
+
       <div className={styles.frame} data-hero-frame aria-hidden="true">
         <span className={`${styles.rule} ${styles.ruleTop}`} data-hero-rule />
         <span className={`${styles.rule} ${styles.ruleBottom}`} data-hero-rule />

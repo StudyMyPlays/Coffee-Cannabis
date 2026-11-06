@@ -24,8 +24,7 @@ export const IMAGE_NAMES = [
   "event-backdrop",
   "member-card",
   "og-share",
-  "event-frame",
-  "paisley-frame-square",
+  "paisley-border",
 ] as const;
 
 export type ImageName = (typeof IMAGE_NAMES)[number];
