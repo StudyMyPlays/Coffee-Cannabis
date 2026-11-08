@@ -1,0 +1,25 @@
+.stack {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+}
+
+.title {
+  font-size: var(--step-3);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
+}
+
+.alert {
+  padding: var(--space-4);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklab, #7a2a1a 35%, transparent);
+  color: var(--cream-50);
+  font-size: var(--step--1);
+}

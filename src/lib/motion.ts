@@ -9,6 +9,7 @@ export const MOTION = {
     inOut: "power3.inOut",
   },
   dur: {
+    press: 0.12,
     fast: 0.32,
     base: 0.6,
     slow: 1.0,

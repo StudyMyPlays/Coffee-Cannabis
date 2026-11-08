@@ -19,7 +19,8 @@ export function DeleteDrinkButton({ slug, name, disabled }: { slug: string; name
           {state.message}
         </p>
       )}
-      <button type="submit" className={styles.buttonDanger} disabled={pending || disabled}>
+      <button type="submit" className={styles.buttonDanger} disabled={pending || disabled} aria-busy={pending}>
+        {pending && <span className="spinner" aria-hidden="true" />}
         {pending ? "Deleting…" : "Delete this drink"}
       </button>
     </form>

@@ -17,6 +17,36 @@
   }
 }
 
+/* The whole card is the link target: keyboard focus lifts it like hover and
+   the ring goes on the card, not the title text. */
+@supports selector(:has(*)) {
+  .card:has(.title a:focus-visible) {
+    transform: translateY(-4px);
+    border-color: var(--gold-300);
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  .title a:focus-visible {
+    outline: none;
+  }
+}
+
+.card:active {
+  transform: translateY(-1px);
+  transition-duration: var(--dur-press);
+}
+
+.extras a {
+  transition: color var(--dur-2) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .extras a:hover {
+    color: var(--gold-200);
+  }
+}
+
 .media {
   position: relative;
   aspect-ratio: 16 / 10;

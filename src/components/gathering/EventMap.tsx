@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { LatLng } from "@/lib/data/types";
 import { track } from "@/lib/analytics";
 import styles from "./EventMap.module.css";
@@ -24,6 +24,12 @@ export function EventMap(props: EventMapProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [load, setLoad] = useState(false);
   const [ready, setReady] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const onReady = useCallback(() => {
+    setReady(true);
+    setFailed(false);
+  }, []);
+  const onError = useCallback(() => setFailed(true), []);
 
   useEffect(() => {
     const el = ref.current;
@@ -49,9 +55,15 @@ export function EventMap(props: EventMapProps) {
     <figure className={styles.wrap}>
       <div ref={ref} className={styles.map}>
         <div className={`${styles.preview} ${ready ? styles.hidden : ""}`} aria-hidden="true">
-          <span className={styles.pulse} />
+          {!failed && <span className={styles.pulse} />}
         </div>
-        {load && <MapCanvas {...props} onReady={() => setReady(true)} />}
+        {failed && !ready && (
+          <p className={`${styles.unavailable} state-enter`} role="status">
+            The map couldn&rsquo;t load right now.
+            <span>The neighborhood and location details are below.</span>
+          </p>
+        )}
+        {load && <MapCanvas {...props} onReady={onReady} onError={onError} />}
       </div>
       <figcaption className={styles.caption}>
         <span className={styles.where}>

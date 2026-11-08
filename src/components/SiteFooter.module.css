@@ -43,12 +43,21 @@
   text-transform: uppercase;
   text-decoration: none;
   color: var(--cream-100);
+  transition: color var(--dur-2) var(--ease-out), opacity var(--dur-press) linear;
 }
 
 @media (hover: hover) {
   .links a:hover {
     color: var(--gold-200);
   }
+}
+
+.links a:focus-visible {
+  color: var(--gold-200);
+}
+
+.links a:active {
+  opacity: 0.7;
 }
 
 .legal {

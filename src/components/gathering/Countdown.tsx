@@ -25,10 +25,16 @@ export function Countdown({ startsAtUtc, endsAtUtc, initialNow }: { startsAtUtc:
   const end = Date.parse(endsAtUtc);
   const [now, setNow] = useState(initialNow);
 
+  // Subscribe to the clock. The first tick runs on the next frame so a stale
+  // server-rendered time is corrected right after hydration.
   useEffect(() => {
-    setNow(Date.now());
-    const id = window.setInterval(() => setNow(Date.now()), 1000);
-    return () => window.clearInterval(id);
+    const tick = () => setNow(Date.now());
+    const raf = requestAnimationFrame(tick);
+    const id = window.setInterval(tick, 1000);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearInterval(id);
+    };
   }, []);
 
   const p = getCountdown(target, now);

@@ -186,6 +186,46 @@
   text-decoration: none;
   cursor: pointer;
   border: 1px solid transparent;
+  transition:
+    background-color var(--dur-2) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out),
+    color var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-spring);
+}
+
+.button:not(:disabled):active,
+.buttonGhost:not(:disabled):active,
+.buttonDanger:not(:disabled):active {
+  transform: scale(var(--press-scale));
+  transition-duration: var(--dur-press);
+}
+
+.buttonGhost:disabled,
+.buttonDanger:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.button[aria-busy="true"],
+.buttonDanger[aria-busy="true"] {
+  cursor: progress;
+}
+
+@media (hover: hover) {
+  .buttonGhost:not(:disabled):hover {
+    background: color-mix(in oklab, var(--gold-300) 22%, transparent);
+  }
+  .topbar .buttonGhost:not(:disabled):hover {
+    background: color-mix(in oklab, var(--gold-300) 18%, transparent);
+  }
+  .buttonDanger:not(:disabled):hover {
+    background: var(--danger-on-paper);
+    color: var(--cream-50);
+  }
+  .link:hover {
+    color: var(--green-800);
+    text-decoration-thickness: 2px;
+  }
 }
 
 .button {
@@ -193,7 +233,7 @@
   color: var(--cream-50);
 }
 
-.button:hover {
+.button:not(:disabled):hover {
   background: var(--green-600);
 }
 
@@ -427,4 +467,22 @@
   border: 1px solid var(--line-on-paper);
   vertical-align: middle;
   margin-right: var(--space-2);
+}
+
+/* ---- Loading + error states ---- */
+.skeletonStack {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 44rem;
+}
+
+.errorBox {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+  max-width: 44rem;
+}
+
+.errorBox:focus {
+  outline: none;
 }

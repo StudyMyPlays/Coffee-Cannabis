@@ -1,0 +1,40 @@
+.stack {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.map {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+}
+
+/* Mirrors app/drinks/[slug]/drink.module.css */
+.drink {
+  padding: clamp(6.5rem, 12vw, 9rem) 0 var(--section-y);
+  background: var(--green-800);
+}
+
+.drinkGrid {
+  display: grid;
+  gap: var(--space-7);
+  align-items: center;
+}
+
+.arch {
+  aspect-ratio: 4 / 5;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .drinkGrid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--space-9);
+  }
+}

@@ -43,7 +43,7 @@ export default async function EditGatheringPage({
         {counts.waitlist} waitlisted · address {released ? "released" : "hidden"}
       </p>
       {sp.saved && (
-        <p className={styles.bannerOk} role="status">
+        <p className={`${styles.bannerOk} state-enter`} role="status">
           Saved. The public site has been refreshed.
         </p>
       )}
