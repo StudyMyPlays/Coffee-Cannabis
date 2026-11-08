@@ -62,7 +62,7 @@ export default async function GatheringPage({ params }: Props) {
 
       <section className={styles.body}>
         <div className={`container ${styles.split}`}>
-          <div className={styles.stack}>
+          <div className={styles.stack} data-reveal>
             <p className="lead">{g.description}</p>
             {drink && drink.active && (
               <p className="muted">
@@ -81,18 +81,20 @@ export default async function GatheringPage({ params }: Props) {
                 <RsvpPanel gathering={g} />
               </>
             )}
-            <p className="muted" style={{ fontSize: "var(--step--1)" }}>
+            <p className={`muted ${styles.fine}`}>
               Venue rules differ by gathering and are shared with confirmed guests ahead of time. Not every gathering
               permits cannabis consumption.
             </p>
           </div>
-          <EventMap
-            neighborhood={g.neighborhood}
-            center={g.neighborhoodCenter}
-            venue={g.venueLocation}
-            address={g.address}
-            releaseLabel={g.addressReleaseAtUtc ? `${fmtShortDate(g.addressReleaseAtUtc)}, ${fmtTime(g.addressReleaseAtUtc)}` : null}
-          />
+          <div data-reveal data-reveal-delay="0.12">
+            <EventMap
+              neighborhood={g.neighborhood}
+              center={g.neighborhoodCenter}
+              venue={g.venueLocation}
+              address={g.address}
+              releaseLabel={g.addressReleaseAtUtc ? `${fmtShortDate(g.addressReleaseAtUtc)}, ${fmtTime(g.addressReleaseAtUtc)}` : null}
+            />
+          </div>
         </div>
       </section>
     </>

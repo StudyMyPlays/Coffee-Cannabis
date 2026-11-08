@@ -24,7 +24,6 @@ export function WhyClub() {
     <section id="why" className={`surface-paper on-paper ${styles.section}`} aria-labelledby="why-title">
       <div className={styles.pin} data-pin>
         <div className={`container ${styles.inner}`}>
-          <p className="eyebrow">Why the club exists</p>
           <h2 id="why-title" className="sr-only">
             Why the club exists
           </h2>

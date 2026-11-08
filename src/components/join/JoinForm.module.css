@@ -205,7 +205,7 @@
   padding: var(--space-4);
   border: 1px solid var(--danger);
   border-radius: var(--radius-md);
-  background: color-mix(in oklab, #7a2a1a 35%, transparent);
+  background: var(--danger-surface);
   font-size: var(--step--1);
 }
 

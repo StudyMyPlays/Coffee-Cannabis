@@ -19,9 +19,6 @@ export function NextGathering({ gathering: g, now }: { gathering: PublicGatherin
 
       <div className={`container ${styles.inner}`}>
         <header className={styles.head}>
-          <p className="eyebrow" data-reveal>
-            The next gathering
-          </p>
           <h2 id="gathering-title" className={`display ${styles.title}`} data-reveal>
             {g ? (
               <>

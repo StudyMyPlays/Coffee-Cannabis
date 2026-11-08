@@ -3,7 +3,7 @@
   padding-block: var(--section-y);
   overflow: hidden;
   background:
-    radial-gradient(60% 50% at 15% 40%, rgba(191, 156, 92, 0.16), transparent 70%),
+    radial-gradient(60% 50% at 15% 40%, color-mix(in srgb, var(--gold-400) 16%, transparent), transparent 70%),
     var(--cream-100);
 }
 
@@ -29,7 +29,7 @@
   aspect-ratio: 3 / 2;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  box-shadow: 0 50px 80px -40px rgba(19, 42, 27, 0.55);
+  box-shadow: 0 50px 80px -40px color-mix(in srgb, var(--ink-900) 55%, transparent);
   transform-style: preserve-3d;
   will-change: transform;
 }

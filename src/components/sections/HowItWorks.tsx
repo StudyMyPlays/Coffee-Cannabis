@@ -14,9 +14,6 @@ export function HowItWorks() {
     <section id="how" className={styles.section} aria-labelledby="how-title">
       <div className="container">
         <header className={styles.head}>
-          <p className="eyebrow" data-reveal>
-            How it works
-          </p>
           <h2 id="how-title" className={`display ${styles.title}`} data-reveal>
             Six steps from <em>stranger</em> to regular.
           </h2>

@@ -16,7 +16,7 @@ export function FinalJoin() {
         <div className={styles.copy}>
           <CCMark className={styles.mark} label={null} />
           <p className="eyebrow" data-reveal>
-            Founding membership · Free to join · 21+
+            Free to join · 21+
           </p>
           <h2 id="join-title" className={`display ${styles.title}`} data-reveal>
             The first 1,000 <em>build the culture.</em>

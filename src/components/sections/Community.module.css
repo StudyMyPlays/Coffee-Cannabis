@@ -3,7 +3,7 @@
   padding-block: var(--section-y);
   overflow: hidden;
   background:
-    linear-gradient(rgba(247, 238, 219, 0.86), rgba(247, 238, 219, 0.86)),
+    linear-gradient(color-mix(in srgb, var(--cream-100) 86%, transparent), color-mix(in srgb, var(--cream-100) 86%, transparent)),
     url("/assets/texture-parchment.jpg") center / cover;
 }
 
@@ -73,7 +73,7 @@
   inset: 0;
   overflow: hidden;
   border-radius: var(--radius-md);
-  box-shadow: 0 30px 60px -35px rgba(19, 42, 27, 0.6);
+  box-shadow: 0 30px 60px -35px color-mix(in srgb, var(--ink-900) 60%, transparent);
 }
 
 .a {

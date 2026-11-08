@@ -17,9 +17,6 @@ export function Community() {
     <section id="community" className={`surface-paper on-paper ${styles.section}`} aria-labelledby="community-title">
       <div className={`container ${styles.grid}`}>
         <header className={styles.head}>
-          <p className="eyebrow" data-reveal>
-            The Community
-          </p>
           <h2 id="community-title" className={`display ${styles.title}`} data-reveal>
             Come alone. <em>Leave knowing somebody.</em>
           </h2>

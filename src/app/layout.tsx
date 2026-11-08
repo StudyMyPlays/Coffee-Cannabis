@@ -26,7 +26,7 @@ const jost = Jost({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Coffee & Cannabis Club — Find your people.",
+    default: "Coffee & Cannabis Club · Find your people.",
     template: "%s · Coffee & Cannabis Club",
   },
   description: SITE.description,
@@ -36,13 +36,13 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     locale: "en_US",
     url: "/",
-    title: "Coffee & Cannabis Club — Find your people.",
+    title: "Coffee & Cannabis Club · Find your people.",
     description: SITE.description,
-    images: [{ url: "/assets/og-share.jpg", width: 1200, height: 630, alt: "Coffee & Cannabis Club — Find your people." }],
+    images: [{ url: "/assets/og-share.jpg", width: 1200, height: 630, alt: "Coffee & Cannabis Club · Find your people." }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Coffee & Cannabis Club — Find your people.",
+    title: "Coffee & Cannabis Club · Find your people.",
     description: SITE.description,
     images: ["/assets/og-share.jpg"],
   },

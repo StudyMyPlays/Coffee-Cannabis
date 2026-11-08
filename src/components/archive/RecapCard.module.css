@@ -6,13 +6,13 @@
   border-radius: var(--radius-lg);
   background: var(--green-800);
   transition:
-    transform var(--dur-3) var(--ease-out),
-    border-color var(--dur-3) var(--ease-out);
+    transform var(--dur-2) var(--ease-out),
+    border-color var(--dur-2) var(--ease-hover);
 }
 
 @media (hover: hover) {
   .card:hover {
-    transform: translateY(-4px);
+    transform: translateY(var(--lift-y));
     border-color: var(--gold-300);
   }
 }
@@ -21,7 +21,7 @@
    the ring goes on the card, not the title text. */
 @supports selector(:has(*)) {
   .card:has(.title a:focus-visible) {
-    transform: translateY(-4px);
+    transform: translateY(var(--lift-y));
     border-color: var(--gold-300);
     outline: 2px solid var(--focus-ring);
     outline-offset: 3px;

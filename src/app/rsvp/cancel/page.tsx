@@ -17,7 +17,7 @@ export default async function CancelPage({ searchParams }: Props) {
       <PageHero eyebrow="Your RSVP" title={<>Manage your <em>spot</em></>} />
       <section className={styles.body}>
         <div className="container">
-          <div className={styles.panel}>
+          <div className={styles.panel} data-reveal>
             <CancelRsvp token={typeof token === "string" ? token : ""} />
           </div>
         </div>

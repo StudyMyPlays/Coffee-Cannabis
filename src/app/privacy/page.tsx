@@ -11,7 +11,7 @@ export default function PrivacyPage() {
     <>
       <PageHero eyebrow="Legal" title="Privacy Policy" />
       <section className={`surface-paper on-paper ${styles.paper}`}>
-        <div className={`container ${styles.prose}`}>
+        <div className={`container ${styles.prose}`} data-reveal>
           <p className={styles.notice}>Draft for legal review. This page is a placeholder and is not yet a binding policy.</p>
           <h2>What we collect</h2>
           <p>

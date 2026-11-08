@@ -235,7 +235,7 @@ a {
     color var(--dur-2) var(--ease-out),
     border-color var(--dur-2) var(--ease-out),
     opacity var(--dur-2) var(--ease-out),
-    transform var(--dur-2) var(--ease-spring);
+    transform var(--dur-2) var(--ease-out);
 }
 
 .btn::after {
@@ -245,7 +245,7 @@ a {
   z-index: -1;
   background: var(--gold-300);
   transform: translateY(101%);
-  transition: transform var(--dur-3) var(--ease-out);
+  transition: transform var(--dur-2) var(--ease-out);
 }
 
 @media (hover: hover) {
@@ -337,7 +337,7 @@ a {
   background-size: 100% 1px;
   background-position: 0 100%;
   background-repeat: no-repeat;
-  transition: background-size var(--dur-3) var(--ease-out);
+  transition: background-size var(--dur-2) var(--ease-out);
 }
 
 @media (hover: hover) {
@@ -426,6 +426,23 @@ a {
 @keyframes page-enter {
   from {
     opacity: 0;
+  }
+}
+
+/* Page intro: the first screen of every page rises in once on load, in CSS so
+   it paints without waiting for JS. Same curve, distance, duration and stagger
+   as the scroll reveals in MotionController. Order each child with --i. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-intro] {
+    animation: intro-rise var(--dur-4) var(--ease-out) both;
+    animation-delay: calc(var(--intro-delay, 0.1s) + var(--i, 0) * var(--stagger));
+  }
+}
+
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
   }
 }
 

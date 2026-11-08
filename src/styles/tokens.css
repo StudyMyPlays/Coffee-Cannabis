@@ -28,6 +28,9 @@
   --gold-500: #a3824a;
   --gold-600: #85683a;    /* gold on cream (AA for large text) */
 
+  /* ---- Shade: tinted near-black for overlays and shadows (never pure black) ---- */
+  --shade: #081e0e;
+
   /* ---- Ink ---- */
   --ink-900: #132a1b;     /* body text on cream */
   --ink-700: #2f4636;
@@ -53,6 +56,7 @@
   --focus-ring: var(--gold-200);
   --danger: #e7a08f;
   --danger-on-paper: #9d3b26;
+  --danger-surface: color-mix(in oklab, #7a2a1a 35%, transparent); /* error banner on field */
   --success: var(--green-300);
 
   /* ---- Typography ---- */
@@ -102,26 +106,31 @@
   --radius-pill: 999px;
 
   /* ---- Elevation ---- */
-  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 30px 60px -30px rgba(5, 25, 11, 0.65);
-  --shadow-float: 0 40px 80px -40px rgba(5, 25, 11, 0.8);
+  --shadow-card: 0 1px 0 color-mix(in srgb, white 4%, transparent) inset, 0 30px 60px -30px color-mix(in srgb, var(--shade) 65%, transparent);
+  --shadow-float: 0 40px 80px -40px color-mix(in srgb, var(--shade) 80%, transparent);
 
-  /* ---- Motion ---- */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --ease-soft: cubic-bezier(0.33, 0.0, 0.2, 1);
-  --dur-1: 160ms;
-  --dur-2: 320ms;
-  --dur-3: 600ms;
-  --dur-4: 1000ms;
-  --dur-5: 1600ms;
+  /* ---- Motion ----
+     Curves and timings follow Emil Kowalski's animation standards:
+     enter/exit = strong ease-out, on-screen movement = strong ease-in-out,
+     hover/colour = ease, constant motion = linear. Never ease-in on UI.
+     UI feedback stays under 300ms; reveals and intros may run longer.
+     Mirrored in src/lib/motion.ts — keep them in sync. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-hover: ease;
+  --dur-press: 140ms;  /* press feedback */
+  --dur-1: 160ms;      /* tooltips, small state flips */
+  --dur-2: 240ms;      /* hover, focus, UI state */
+  --dur-modal: 400ms;  /* dialogs and menus opening */
+  --dur-3: 600ms;      /* photo zoom, scroll-state, content enter */
+  --dur-4: 1000ms;     /* reveals */
+  --dur-5: 1600ms;     /* hero intro */
   --drift-period: 48s;
-  /* Interaction feedback: presses must feel instant, lifts gentle. */
-  --dur-press: 120ms;
-  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1); /* small overshoot, small elements only */
   --press-scale: 0.97;
-  --lift-y: -3px;
+  --lift-y: -2px;      /* linked cards lift 2px on hover */
+  --zoom-photo: 1.03;  /* photos zoom inside their frame on hover */
   --stagger: 80ms;
-  --reveal-distance: 36px; /* mirrors MOTION.revealDistance */
+  --reveal-distance: 24px; /* mirrors MOTION.revealDistance */
 
   /* ---- Form fields (on field surfaces) ---- */
   --field-bg: color-mix(in oklab, var(--green-950) 48%, transparent);

@@ -31,9 +31,6 @@ export function FoundingMembers({ memberCount }: { memberCount: number }) {
         </div>
 
         <div className={styles.copy}>
-          <p className="eyebrow" data-reveal>
-            Founding Members
-          </p>
           <h2 id="founding-title" className={`display ${styles.title}`} data-reveal>
             A club <em>before there&rsquo;s a clubhouse.</em>
           </h2>

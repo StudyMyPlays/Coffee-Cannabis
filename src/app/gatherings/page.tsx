@@ -27,20 +27,24 @@ export default async function GatheringsPage() {
         <p>Every gathering leaves something behind: a playlist, a few photos, a line somebody said that stuck.</p>
       </PageHero>
       <section className={styles.body}>
-        <div className="container" style={{ display: "grid", gap: "var(--space-7)" }}>
+        <div className={`container ${styles.archive}`}>
           {next && (
-            <p>
+            <p data-reveal>
               Up next: <Link href={`/gatherings/${next.slug}`}>Gathering No. {pad2(next.number)} · {fmtShortDate(next.startsAtUtc)}</Link>
             </p>
           )}
           {past.length ? (
-            <div style={{ display: "grid", gap: "var(--space-5)", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 320px), 1fr))" }}>
+            <div className={styles.cards}>
               {past.map((g) => (
-                <RecapCard key={g.id} g={g} drinkName={name(g.drinkSlug)} />
+                <div key={g.id} data-reveal>
+                  <RecapCard g={g} drinkName={name(g.drinkSlug)} />
+                </div>
               ))}
             </div>
           ) : (
-            <ArchiveEmpty headingLevel={2} />
+            <div data-reveal>
+              <ArchiveEmpty headingLevel={2} />
+            </div>
           )}
         </div>
       </section>

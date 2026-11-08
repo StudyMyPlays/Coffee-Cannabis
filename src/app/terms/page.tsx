@@ -11,7 +11,7 @@ export default function TermsPage() {
     <>
       <PageHero eyebrow="Legal" title="Terms" />
       <section className={`surface-paper on-paper ${styles.paper}`}>
-        <div className={`container ${styles.prose}`}>
+        <div className={`container ${styles.prose}`} data-reveal>
           <p className={styles.notice}>Draft for legal review. This page is a placeholder and is not yet binding terms.</p>
           <h2>Membership</h2>
           <p>

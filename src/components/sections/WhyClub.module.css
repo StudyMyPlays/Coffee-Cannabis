@@ -1,7 +1,7 @@
 .section {
   position: relative;
   background:
-    linear-gradient(rgba(247, 238, 219, 0.82), rgba(247, 238, 219, 0.82)),
+    linear-gradient(color-mix(in srgb, var(--cream-100) 82%, transparent), color-mix(in srgb, var(--cream-100) 82%, transparent)),
     url("/assets/texture-parchment.jpg") center / cover;
   border-radius: clamp(24px, 6vw, 72px) clamp(24px, 6vw, 72px) 0 0;
   margin-top: calc(clamp(24px, 6vw, 72px) * -1);

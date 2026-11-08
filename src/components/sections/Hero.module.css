@@ -22,8 +22,8 @@
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(70% 55% at 50% 48%, rgba(20, 80, 36, 0.15), rgba(10, 40, 18, 0.55) 100%),
-    linear-gradient(to bottom, transparent 60%, rgba(15, 59, 28, 0.85));
+    radial-gradient(70% 55% at 50% 48%, color-mix(in srgb, var(--green-800) 15%, transparent), color-mix(in srgb, var(--shade) 55%, transparent) 100%),
+    linear-gradient(to bottom, transparent 60%, color-mix(in srgb, var(--green-900) 85%, transparent));
 }
 
 .drift {
@@ -161,7 +161,7 @@
 .mark {
   width: clamp(4.5rem, 10vw, 7rem);
   color: var(--gold-300);
-  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 6px 18px color-mix(in srgb, var(--shade) 25%, transparent));
 }
 
 .eyebrow {
@@ -176,7 +176,7 @@
   font-size: var(--step-6);
   font-weight: 400;
   line-height: 0.95;
-  text-shadow: 0 2px 40px rgba(5, 25, 11, 0.4);
+  text-shadow: 0 2px 40px color-mix(in srgb, var(--shade) 40%, transparent);
 }
 
 .title em {
@@ -201,7 +201,12 @@
 
 .ctas > * {
   flex: 1 1 13rem;
-  max-width: 16rem;
+}
+
+@media (min-width: 640px) {
+  .ctas > * {
+    max-width: 16rem;
+  }
 }
 
 /* ---- Next-gathering ticker ---- */
@@ -252,7 +257,7 @@
   display: none;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 640px) {
   .where {
     display: inline;
   }
@@ -291,12 +296,6 @@
   flex: none;
 }
 
-@media (max-width: 420px) {
-  .ctas > * {
-    max-width: none;
-  }
-}
-
 @media (min-width: 1024px) {
   .hero {
     padding-block: 8rem 7rem;
@@ -318,10 +317,11 @@
   .ruleRight {
     animation-name: hero-rule-y;
   }
+  /* Same rise as every page intro (globals.css), after the frame settles. */
   .content > [data-hero-intro],
   .ticker {
-    animation: hero-rise 1.3s var(--ease-out) both;
-    animation-delay: calc(0.25s + var(--i, 0) * 0.11s);
+    animation: intro-rise var(--dur-4) var(--ease-out) both;
+    animation-delay: calc(0.25s + var(--i, 0) * var(--stagger));
   }
 }
 
@@ -350,9 +350,3 @@
   }
 }
 
-@keyframes hero-rise {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-}

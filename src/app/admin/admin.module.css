@@ -1,7 +1,7 @@
 /* Admin CMS — internal tool. Clarity first; brand tokens only. */
 
 .shell {
-  min-height: 100vh;
+  min-height: 100svh;
   background: var(--cream-100);
   color: var(--ink-900);
   font-family: var(--font-sans);
@@ -190,7 +190,7 @@
     background-color var(--dur-2) var(--ease-out),
     border-color var(--dur-2) var(--ease-out),
     color var(--dur-2) var(--ease-out),
-    transform var(--dur-2) var(--ease-spring);
+    transform var(--dur-2) var(--ease-out);
 }
 
 .button:not(:disabled):active,
@@ -349,7 +349,7 @@
   gap: var(--space-4);
 }
 
-@media (min-width: 720px) {
+@media (min-width: 768px) {
   .grid2 {
     grid-template-columns: 1fr 1fr;
   }
@@ -385,7 +385,7 @@
   width: 100%;
   font: inherit;
   color: var(--ink-900);
-  background: #fff;
+  background: var(--cream-50);
   border: 1px solid var(--gold-500);
   border-radius: var(--radius-sm);
   padding: 0.6rem 0.75rem;
