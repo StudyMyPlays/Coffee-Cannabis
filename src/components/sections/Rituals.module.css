@@ -68,6 +68,26 @@
   border-radius: inherit;
 }
 
+/* Hover: the photo leans in slightly and the arch outline warms to the drink's
+   accent. Scale lives on the <img> so it never fights the parallax transform
+   GSAP drives on .visual. Fine pointers only. */
+.visual img {
+  transition: scale var(--dur-4) var(--ease-out);
+}
+
+.visualWrap {
+  transition: outline-color var(--dur-3) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .spread:hover .visual img {
+    scale: 1.04;
+  }
+  .spread:hover .visualWrap {
+    outline-color: color-mix(in oklab, var(--accent) 70%, var(--gold-300));
+  }
+}
+
 .copy {
   position: relative;
   z-index: 1;

@@ -10,20 +10,55 @@
   overscroll-behavior: contain;
 }
 
+/* Open AND close animate: display/overlay transition discretely so the sheet
+   stays painted while it fades out. Browsers without allow-discrete simply
+   close instantly; opening still animates via @starting-style. */
+.dialog {
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  transition:
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-out),
+    overlay var(--dur-2) var(--ease-out) allow-discrete,
+    display var(--dur-2) var(--ease-out) allow-discrete;
+}
+
+.dialog[open] {
+  opacity: 1;
+  transform: none;
+  transition-duration: var(--dur-3);
+}
+
+@starting-style {
+  .dialog[open] {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+}
+
 .dialog::backdrop {
+  background: rgba(8, 30, 14, 0);
+  -webkit-backdrop-filter: blur(0);
+  backdrop-filter: blur(0);
+  transition:
+    background-color var(--dur-2) var(--ease-out),
+    backdrop-filter var(--dur-2) var(--ease-out),
+    -webkit-backdrop-filter var(--dur-2) var(--ease-out),
+    overlay var(--dur-2) var(--ease-out) allow-discrete,
+    display var(--dur-2) var(--ease-out) allow-discrete;
+}
+
+.dialog[open]::backdrop {
   background: rgba(8, 30, 14, 0.72);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
 
-.dialog[open] {
-  animation: dialog-in var(--dur-3) var(--ease-out);
-}
-
-@keyframes dialog-in {
-  from {
-    opacity: 0;
-    transform: translateY(24px) scale(0.98);
+@starting-style {
+  .dialog[open]::backdrop {
+    background: rgba(8, 30, 14, 0);
+    -webkit-backdrop-filter: blur(0);
+    backdrop-filter: blur(0);
   }
 }
 
@@ -115,6 +150,29 @@
   color: var(--cream-100);
   font-size: 1.5rem;
   line-height: 1;
+  transition:
+    background-color var(--dur-2) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out),
+    color var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-spring);
+}
+
+@media (hover: hover) {
+  .x:hover {
+    background: var(--cream-100);
+    border-color: var(--cream-100);
+    color: var(--green-900);
+    transform: rotate(90deg);
+  }
+}
+
+.x:active {
+  transform: scale(var(--press-scale));
+  transition-duration: var(--dur-press);
+}
+
+.x:focus-visible {
+  outline-offset: 3px;
 }
 
 @media (min-width: 768px) {

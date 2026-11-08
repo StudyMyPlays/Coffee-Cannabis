@@ -25,6 +25,41 @@ export const IMAGE_MANIFEST = {
     blurDataURL:
       "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAABwAQCdASoQAAsAA4BaJZACdAFAAAD+8KF/5GGjX160tm3yAAA=",
   },
+  "drink-green-goddess": {
+    src: "/assets/drink-green-goddess.jpg",
+    width: 1024,
+    height: 1536,
+    blurDataURL:
+      "data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAABQBACdASoQABgAPu1iqU2ppaOiMAgBMB2JbACdMoADCqYUvHfspxWz3bWAAP5CtVJIbQdYy70pNTTBi7+pVsStjk2EgpILNQICaIuWMzLV0csvg+P6pam+ucamEBDn512cTgFbs8ifxVp6v9UITQs+X3jkjJ29lDdbpit0wPHwb9rFKU+fzi0kT2v65XyTsirJJ5H/6PqgypuDCR8zYtdlSBUAAA==",
+  },
+  "drink-purp": {
+    src: "/assets/drink-purp.jpg",
+    width: 1024,
+    height: 1536,
+    blurDataURL:
+      "data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAABwBACdASoQABgAPu1iqU2ppaOiMAgBMB2JagCdIExgwhG+K36x07M4+6bIAAD+ynBifVQuIWttY67Ouqz7JJSLrHu6NUT5RaH3nA+R7uwZua9R2F87Uf6e71oWwAfkoxua5zI/ud/0ctb0bK2kSh6pTWpQ7k4TephqJVjB6WMYYHtrmZWeWCSQ1ycVkjOBvoiuK6RefnKNlkaaoVxShTOG+3fJ4soM5eUFcEpJaAAAAA==",
+  },
+  "drink-gold-drip": {
+    src: "/assets/drink-gold-drip.jpg",
+    width: 1145,
+    height: 1374,
+    blurDataURL:
+      "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAADQAwCdASoQABMAPu1iqU2ppaOiMAgBMB2JbACdAB4bv/mRTScM+kQA/uU6vZ6QmZxVguBzhHESTLVIOCxBtQjdcgj71dHBVnPLANUAiLZQYjFO4fdqI7CJEDoclkShFNF5W4CMcJIxgeG83lq+25MlmPksqHG5gUcrhM6iOcaAAA==",
+  },
+  "drink-pink-velvet": {
+    src: "/assets/drink-pink-velvet.jpg",
+    width: 1122,
+    height: 1402,
+    blurDataURL:
+      "data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAAAwBACdASoQABQAPu1iqU2ppaOiMAgBMB2JbACdMoR4GB7op2fYD5Lkj5AA/rCnyENsPW/lj5c71pE1sdPDCLq8gNbu94IB5bbq7u9WN3VeS1/Cunenvq/PN4DXSVQIQWNR5hCMyXrak3pnQfvR/ypkalBzrw57u7LaAXVswmYYtGCKfE8kjWvJ8u9a5I0PgAA=",
+  },
+  "drink-green-mile": {
+    src: "/assets/drink-green-mile.jpg",
+    width: 1122,
+    height: 1402,
+    blurDataURL:
+      "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADQAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JYwAAW5mn8rVcVMkVT2AA/vDjmOe7Vh0zeEwTRdlmnVMmthixoXYN9E+GRU68KNoWSIhn3wDTlVvKA8qsFOk++FgZ51Tg8tuCpuDJgAA=",
+  },
   "event-backdrop": {
     src: "/assets/event-backdrop.jpg",
     width: 1672,
@@ -55,4 +90,4 @@ export const IMAGE_MANIFEST = {
   },
 } as const;
 
-export const MISSING_IMAGES = ["drink-green-goddess","drink-purp","drink-gold-drip","drink-pink-velvet","drink-green-mile","community-table","community-dj","community-arrival","community-hands"] as const;
+export const MISSING_IMAGES = ["community-table","community-dj","community-arrival","community-hands"] as const;

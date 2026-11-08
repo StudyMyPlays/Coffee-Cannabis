@@ -109,22 +109,25 @@
 .field input {
   min-height: 52px;
   padding: 0 var(--space-4);
-  border: 1px solid color-mix(in oklab, var(--cream-100) 32%, transparent);
+  border: 1px solid var(--field-border);
   border-radius: var(--radius-sm);
-  background: color-mix(in oklab, var(--green-950) 45%, transparent);
+  background: var(--field-bg);
   color: var(--cream-50);
   font-size: 1rem; /* ≥16px prevents iOS zoom */
-  transition: border-color var(--dur-2) var(--ease-out);
+  transition:
+    border-color var(--dur-2) var(--ease-out),
+    background-color var(--dur-2) var(--ease-out);
 }
 
 .field input:hover {
-  border-color: color-mix(in oklab, var(--cream-100) 55%, transparent);
+  border-color: var(--field-border-hover);
 }
 
 .field input:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 1px;
   border-color: transparent;
+  background: color-mix(in oklab, var(--green-950) 62%, transparent);
 }
 
 .field input[aria-invalid="true"] {
@@ -165,7 +168,7 @@
   border-radius: var(--radius-md);
 }
 
-.have button {
+.have > button {
   border: 0;
   background-color: transparent;
   color: var(--gold-200);
@@ -179,4 +182,41 @@
   .fields {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+/* ---- Live count refresh ---- */
+.refreshing strong,
+.refreshing .capacityNote {
+  animation: count-pulse 1.2s var(--ease-in-out) infinite;
+}
+
+@keyframes count-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.liveNote {
+  font-size: var(--step--2);
+  line-height: 1.6;
+  color: var(--text-on-field-muted);
+}
+
+/* ---- Inline cancel confirmation ---- */
+.confirm {
+  display: grid;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.confirm strong {
+  color: var(--cream-50);
+  font-weight: 500;
+}
+
+.confirmActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
 }

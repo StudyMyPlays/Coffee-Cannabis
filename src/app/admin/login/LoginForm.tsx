@@ -28,7 +28,8 @@ export function LoginForm() {
         />
       </div>
       <div className={styles.actions}>
-        <button type="submit" className={styles.button} disabled={pending}>
+        <button type="submit" className={styles.button} disabled={pending} aria-busy={pending}>
+          {pending && <span className="spinner" aria-hidden="true" />}
           {pending ? "Signing in…" : "Sign in"}
         </button>
       </div>

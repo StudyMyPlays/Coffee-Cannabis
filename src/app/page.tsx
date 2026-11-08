@@ -15,6 +15,8 @@ export const revalidate = 60;
 
 export default async function HomePage() {
   const adapter = getDataAdapter();
+  // Server Component: renders once per request, so reading the clock here is safe.
+  // eslint-disable-next-line react-hooks/purity
   const now = Date.now();
   const [next, past, drinks, secrets, memberCount] = await Promise.all([
     getNextGathering(adapter, now),

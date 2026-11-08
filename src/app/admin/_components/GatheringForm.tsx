@@ -119,7 +119,8 @@ export function GatheringForm({
 
       <div className={styles.stickyBar}>
         <span className={styles.muted}>{readOnly ? "Saving is disabled on this host." : "Changes go live as soon as you save."}</span>
-        <button type="submit" className={styles.button} disabled={pending || readOnly}>
+        <button type="submit" className={styles.button} disabled={pending || readOnly} aria-busy={pending}>
+          {pending && <span className="spinner" aria-hidden="true" />}
           {pending ? "Saving…" : isNew ? "Create gathering" : "Save changes"}
         </button>
       </div>

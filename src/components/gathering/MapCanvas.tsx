@@ -76,10 +76,19 @@ function brandStyle(): StyleSpecification {
   };
 }
 
-export default function MapCanvas({ center, venue, onReady }: EventMapProps & { onReady: () => void }) {
+export default function MapCanvas({
+  center,
+  venue,
+  onReady,
+  onError,
+}: EventMapProps & { onReady: () => void; onError: () => void }) {
   const el = useRef<HTMLDivElement>(null);
   const readyRef = useRef(onReady);
-  readyRef.current = onReady;
+  const errorRef = useRef(onError);
+  useEffect(() => {
+    readyRef.current = onReady;
+    errorRef.current = onError;
+  }, [onReady, onError]);
 
   useEffect(() => {
     if (!el.current) return;
@@ -117,9 +126,16 @@ export default function MapCanvas({ center, venue, onReady }: EventMapProps & { 
     map.on("zoomstart", (e: { originalEvent?: Event }) => {
       if (e.originalEvent) onMove();
     });
-    map.once("load", () => readyRef.current());
-    // Tile host unreachable → keep the branded preview; never throw.
-    map.on("error", () => {});
+    let loaded = false;
+    map.once("load", () => {
+      loaded = true;
+      readyRef.current();
+    });
+    // Tile host unreachable before first paint → the preview explains why;
+    // later tile hiccups are ignored. Never throw.
+    map.on("error", () => {
+      if (!loaded) errorRef.current();
+    });
 
     return () => {
       markers.forEach((m) => m.remove());

@@ -103,7 +103,8 @@ export function DrinkForm({
         <span className={styles.muted}>
           {readOnly ? "Saving is disabled on this host." : founding ? "Founding Five — permanent." : "Changes go live as soon as you save."}
         </span>
-        <button type="submit" className={styles.button} disabled={pending || readOnly}>
+        <button type="submit" className={styles.button} disabled={pending || readOnly} aria-busy={pending}>
+          {pending && <span className="spinner" aria-hidden="true" />}
           {pending ? "Saving…" : isNew ? "Create drink" : "Save changes"}
         </button>
       </div>

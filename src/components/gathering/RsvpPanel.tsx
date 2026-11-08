@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { track } from "@/lib/analytics";
+import { useFieldValidation, type FieldErrors } from "@/lib/use-field-validation";
 import type { PublicGathering } from "@/lib/data/types";
+import { useStoredRsvp, writeStoredRsvp, type StoredRsvp } from "./rsvp-store";
 import styles from "./RsvpPanel.module.css";
 
 type Phase =
@@ -15,30 +17,16 @@ type Phase =
   | { kind: "cancelled" }
   | { kind: "error"; message: string };
 
-interface Stored {
-  token: string;
-  status: "confirmed" | "waitlist";
-  name: string;
-}
+/** Live capacity refresh: counts shimmer while loading, a quiet note if it fails. */
+type Live = "loading" | "fresh" | "stale";
 
-const storeKey = (id: string) => `ccc:rsvp:${id}`;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function readStored(id: string): Stored | null {
-  try {
-    const raw = window.localStorage.getItem(storeKey(id));
-    return raw ? (JSON.parse(raw) as Stored) : null;
-  } catch {
-    return null;
-  }
-}
-
-function writeStored(id: string, value: Stored | null) {
-  try {
-    if (value) window.localStorage.setItem(storeKey(id), JSON.stringify(value));
-    else window.localStorage.removeItem(storeKey(id));
-  } catch {
-    /* storage may be unavailable (private mode) — RSVP still works via email link */
-  }
+function validate(fd: FormData): FieldErrors {
+  const e: FieldErrors = {};
+  if (!String(fd.get("name") || "").trim()) e.name = "Tell us what to call you.";
+  if (!EMAIL_RE.test(String(fd.get("email") || "").trim())) e.email = "Enter a valid email address.";
+  return e;
 }
 
 /**
@@ -48,31 +36,42 @@ function writeStored(id: string, value: Stored | null) {
 export function RsvpPanel({ gathering: initial }: { gathering: PublicGathering }) {
   const [g, setG] = useState(initial);
   const [phase, setPhase] = useState<Phase>({ kind: "idle" });
-  const [stored, setStored] = useState<Stored | null>(null);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [live, setLive] = useState<Live>("loading");
+  const [confirmingCancel, setConfirmingCancel] = useState(false);
+  // Rendered once; the server already filters gatherings that have ended.
+  const [mountedAt] = useState(() => Date.now());
+  const stored = useStoredRsvp(initial.id);
+  const { errors, setErrors, fieldHandlers } = useFieldValidation(validate);
   const startedAt = useRef<number>(0);
   const statusRef = useRef<HTMLDivElement>(null);
+  const keepRef = useRef<HTMLButtonElement>(null);
 
-  // Live counts + remembered RSVP for this device.
+  // Live counts (the page shell may be up to a minute old).
   useEffect(() => {
     startedAt.current = Date.now();
-    setStored(readStored(initial.id));
     let alive = true;
     fetch("/api/gatherings/next", { cache: "no-store" })
-      .then((r) => (r.ok ? r.json() : null))
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then((data: PublicGathering | null) => {
-        if (alive && data && data.id === initial.id) setG(data);
+        if (!alive) return;
+        if (data && data.id === initial.id) setG(data);
+        setLive("fresh");
       })
-      .catch(() => {});
+      .catch(() => alive && setLive("stale"));
     return () => {
       alive = false;
     };
   }, [initial.id]);
 
+  useEffect(() => {
+    if (confirmingCancel) keepRef.current?.focus();
+  }, [confirmingCancel]);
+
   const focusStatus = () => requestAnimationFrame(() => statusRef.current?.focus());
 
   const full = g.spotsLeft <= 0;
-  const closed = g.status !== "upcoming" || Date.now() > Date.parse(g.endsAtUtc);
+  const closed = g.status !== "upcoming" || mountedAt > Date.parse(g.endsAtUtc);
+  const busy = phase.kind === "submitting";
 
   const onSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -81,9 +80,7 @@ export function RsvpPanel({ gathering: initial }: { gathering: PublicGathering }
       const fd = new FormData(form);
       const name = String(fd.get("name") || "").trim();
       const email = String(fd.get("email") || "").trim();
-      const local: Record<string, string> = {};
-      if (!name) local.name = "Tell us what to call you.";
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) local.email = "Enter a valid email address.";
+      const local = validate(fd);
       setErrors(local);
       if (Object.keys(local).length) {
         form.querySelector<HTMLInputElement>(`[name="${Object.keys(local)[0]}"]`)?.focus();
@@ -124,9 +121,8 @@ export function RsvpPanel({ gathering: initial }: { gathering: PublicGathering }
         }
         if (data.gathering) setG(data.gathering);
         if (data.status === "confirmed" || data.status === "waitlist") {
-          const s: Stored = { token: data.cancelToken, status: data.status, name };
-          writeStored(g.id, s);
-          setStored(s);
+          const s: StoredRsvp = { token: data.cancelToken, status: data.status, name };
+          writeStoredRsvp(g.id, s);
           track(data.status === "confirmed" ? "rsvp" : "waitlist_join", { gathering: g.number });
           setPhase(
             data.status === "confirmed"
@@ -143,12 +139,12 @@ export function RsvpPanel({ gathering: initial }: { gathering: PublicGathering }
         focusStatus();
       }
     },
-    [g.id, g.number],
+    [g.id, g.number, setErrors],
   );
 
   const onCancel = async () => {
     if (!stored) return;
-    if (!window.confirm("Cancel your RSVP? Your spot will go to the next person on the waitlist.")) return;
+    setConfirmingCancel(false);
     setPhase({ kind: "submitting" });
     try {
       const res = await fetch("/api/rsvp/cancel", {
@@ -159,8 +155,7 @@ export function RsvpPanel({ gathering: initial }: { gathering: PublicGathering }
       const data = await res.json().catch(() => ({}));
       if (!res.ok && res.status !== 404) throw new Error();
       if (data.gathering) setG(data.gathering);
-      writeStored(g.id, null);
-      setStored(null);
+      writeStoredRsvp(g.id, null);
       track("rsvp_cancel", { gathering: g.number });
       setPhase({ kind: "cancelled" });
       focusStatus();
@@ -174,8 +169,8 @@ export function RsvpPanel({ gathering: initial }: { gathering: PublicGathering }
 
   return (
     <div className={styles.panel}>
-      <div className={styles.capacity}>
-        <div className={styles.capacityRow}>
+      <div className={styles.capacity} aria-busy={live === "loading"}>
+        <div className={`${styles.capacityRow} ${live === "loading" ? styles.refreshing : ""}`}>
           <span>
             <strong>{g.attendeeCount}</strong> of {g.capacity} spots claimed
           </span>
@@ -193,29 +188,34 @@ export function RsvpPanel({ gathering: initial }: { gathering: PublicGathering }
         >
           <span style={{ transform: `scaleX(${pct / 100})` }} />
         </div>
+        {live === "stale" && (
+          <p className={`${styles.liveNote} state-enter`}>Live count unavailable right now. Spots are confirmed when you RSVP.</p>
+        )}
       </div>
 
       <div ref={statusRef} tabIndex={-1} className={styles.status} aria-live="polite">
         {phase.kind === "confirmed" && (
-          <p className={styles.success}>
+          <p className={`${styles.success} state-enter`}>
             <strong>You&rsquo;re in, {phase.name}.</strong> Check your inbox for confirmation. The exact location drops to
             confirmed guests before the gathering.
           </p>
         )}
         {phase.kind === "waitlist" && (
-          <p className={styles.success}>
+          <p className={`${styles.success} state-enter`}>
             <strong>You&rsquo;re on the waitlist{phase.position ? ` — number ${phase.position}` : ""}.</strong> If a spot
             opens, it&rsquo;s yours and we&rsquo;ll email you right away.
           </p>
         )}
         {phase.kind === "duplicate" && (
-          <p className={styles.success}>
+          <p className={`${styles.success} state-enter`}>
             <strong>You&rsquo;re already on the list</strong> for this gathering. Your confirmation email has the details.
           </p>
         )}
-        {phase.kind === "cancelled" && <p className={styles.success}>Your RSVP is cancelled. We hope to see you at the next one.</p>}
+        {phase.kind === "cancelled" && (
+          <p className={`${styles.success} state-enter`}>Your RSVP is cancelled. We hope to see you at the next one.</p>
+        )}
         {phase.kind === "error" && (
-          <p className={styles.error} role="alert">
+          <p className={`${styles.error} state-enter`} role="alert">
             {phase.message}
           </p>
         )}
@@ -223,18 +223,43 @@ export function RsvpPanel({ gathering: initial }: { gathering: PublicGathering }
 
       {stored && phase.kind !== "cancelled" ? (
         <div className={styles.have}>
-          <p>
-            {stored.status === "confirmed" ? "You’re confirmed" : "You’re on the waitlist"} as{" "}
-            <strong>{stored.name}</strong>.
-          </p>
-          <button type="button" className="text-link" onClick={onCancel} disabled={phase.kind === "submitting"}>
-            Cancel RSVP
-          </button>
+          {confirmingCancel ? (
+            <div className={`${styles.confirm} state-enter`} role="group" aria-labelledby="rsvp-cancel-q">
+              <p id="rsvp-cancel-q">
+                <strong>Cancel your RSVP?</strong> Your spot will go to the next person on the waitlist.
+              </p>
+              <div className={styles.confirmActions}>
+                <button type="button" className="btn btn--ghost" onClick={onCancel}>
+                  Yes, cancel
+                </button>
+                <button ref={keepRef} type="button" className="text-link" onClick={() => setConfirmingCancel(false)}>
+                  Keep my spot
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <p>
+                {stored.status === "confirmed" ? "You’re confirmed" : "You’re on the waitlist"} as{" "}
+                <strong>{stored.name}</strong>.
+              </p>
+              <button
+                type="button"
+                className="text-link"
+                onClick={() => setConfirmingCancel(true)}
+                disabled={busy}
+                aria-busy={busy}
+              >
+                {busy && <span className="spinner" aria-hidden="true" />}
+                {busy ? "Cancelling…" : "Cancel RSVP"}
+              </button>
+            </>
+          )}
         </div>
       ) : closed ? (
         <p className={styles.closed}>RSVPs for this gathering are closed.</p>
       ) : (
-        <form className={styles.form} onSubmit={onSubmit} noValidate aria-describedby="rsvp-note">
+        <form className={styles.form} onSubmit={onSubmit} noValidate aria-describedby="rsvp-note" {...fieldHandlers}>
           <div className={styles.fields}>
             <div className={styles.field}>
               <label htmlFor="rsvp-name">Name</label>
@@ -248,7 +273,7 @@ export function RsvpPanel({ gathering: initial }: { gathering: PublicGathering }
                 aria-describedby={errors.name ? "rsvp-name-err" : undefined}
               />
               {errors.name && (
-                <span id="rsvp-name-err" className={styles.fieldError}>
+                <span id="rsvp-name-err" className={`${styles.fieldError} state-enter`}>
                   {errors.name}
                 </span>
               )}
@@ -266,7 +291,7 @@ export function RsvpPanel({ gathering: initial }: { gathering: PublicGathering }
                 aria-describedby={errors.email ? "rsvp-email-err" : undefined}
               />
               {errors.email && (
-                <span id="rsvp-email-err" className={styles.fieldError}>
+                <span id="rsvp-email-err" className={`${styles.fieldError} state-enter`}>
                   {errors.email}
                 </span>
               )}
@@ -277,8 +302,9 @@ export function RsvpPanel({ gathering: initial }: { gathering: PublicGathering }
             <label htmlFor="rsvp-company">Company</label>
             <input id="rsvp-company" name="company" tabIndex={-1} autoComplete="off" />
           </div>
-          <button className="btn btn--block" type="submit" disabled={phase.kind === "submitting"}>
-            {phase.kind === "submitting" ? "Saving your spot…" : full ? "Join the waitlist" : "RSVP"}
+          <button className="btn btn--block" type="submit" disabled={busy} aria-busy={busy}>
+            {busy && <span className="spinner" aria-hidden="true" />}
+            {busy ? "Saving your spot…" : full ? "Join the waitlist" : "RSVP"}
           </button>
           <p id="rsvp-note" className={styles.note}>
             21+ only. One spot per person. Not a member yet?{" "}

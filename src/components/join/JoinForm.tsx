@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { track } from "@/lib/analytics";
 import { SIGNUP_CONFIG } from "@/lib/config";
+import { useFieldValidation } from "@/lib/use-field-validation";
 import styles from "./JoinForm.module.css";
 
 type State =
@@ -20,6 +21,11 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  */
 export const CONSENT_TEXT =
   "I’m 21 or older and I agree to receive emails and text messages from Coffee & Cannabis Club about gatherings, location drops and member news. Message frequency varies; message & data rates may apply. Reply STOP to opt out of texts, or unsubscribe from any email.";
+
+/** Display split only (wording unchanged): the agreement, then the fine print. */
+const CONSENT_SPLIT = CONSENT_TEXT.indexOf(". ") + 1;
+const CONSENT_LEAD = CONSENT_TEXT.slice(0, CONSENT_SPLIT);
+const CONSENT_FINE = CONSENT_TEXT.slice(CONSENT_SPLIT + 1);
 
 function validate(fd: FormData): Record<string, string> {
   const e: Record<string, string> = {};
@@ -39,7 +45,7 @@ function validate(fd: FormData): Record<string, string> {
 
 export function JoinForm({ source = "home", idPrefix = "join" }: { source?: string; idPrefix?: string }) {
   const [state, setState] = useState<State>({ kind: "idle" });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const { errors, setErrors, fieldHandlers } = useFieldValidation(validate);
   const startedAt = useRef(0);
   const statusRef = useRef<HTMLDivElement>(null);
   const id = (f: string) => `${idPrefix}-${f}`;
@@ -112,7 +118,7 @@ export function JoinForm({ source = "home", idPrefix = "join" }: { source?: stri
 
   if (state.kind === "success") {
     return (
-      <div ref={statusRef} tabIndex={-1} className={styles.success} role="status">
+      <div ref={statusRef} tabIndex={-1} className={`${styles.success} state-enter`} role="status">
         <p className={styles.successKicker}>{state.existing ? "Welcome back" : "Welcome to the club"}</p>
         <p className={`display ${styles.successTitle}`}>
           {state.existing ? (
@@ -135,7 +141,7 @@ export function JoinForm({ source = "home", idPrefix = "join" }: { source?: stri
 
   const err = (f: string) =>
     errors[f] ? (
-      <span id={id(`${f}-err`)} className={styles.fieldError}>
+      <span id={id(`${f}-err`)} className={`${styles.fieldError} state-enter`}>
         {errors[f]}
       </span>
     ) : null;
@@ -145,10 +151,10 @@ export function JoinForm({ source = "home", idPrefix = "join" }: { source?: stri
   });
 
   return (
-    <form className={styles.form} onSubmit={onSubmit} noValidate>
+    <form className={styles.form} onSubmit={onSubmit} noValidate {...fieldHandlers}>
       <div ref={statusRef} tabIndex={-1} aria-live="polite" className={styles.status}>
         {state.kind === "error" && (
-          <p className={styles.error} role="alert">
+          <p className={`${styles.error} state-enter`} role="alert">
             {state.message}
           </p>
         )}
@@ -207,12 +213,21 @@ export function JoinForm({ source = "home", idPrefix = "join" }: { source?: stri
       <div className={styles.consent}>
         <input id={id("consent")} name="consent" type="checkbox" required {...a11y("consent")} />
         <label htmlFor={id("consent")}>
-          {CONSENT_TEXT} See our <Link href="/privacy">Privacy Policy</Link> and <Link href="/terms">Terms</Link>.
+          <span className={styles.consentLead}>{CONSENT_LEAD}</span>{" "}
+          <span className={styles.consentFine}>
+            {CONSENT_FINE} See our <Link href="/privacy">Privacy Policy</Link> and <Link href="/terms">Terms</Link>.
+          </span>
         </label>
       </div>
       {err("consent")}
 
-      <button type="submit" className="btn btn--block" disabled={state.kind === "submitting"}>
+      <button
+        type="submit"
+        className="btn btn--block"
+        disabled={state.kind === "submitting"}
+        aria-busy={state.kind === "submitting"}
+      >
+        {state.kind === "submitting" && <span className="spinner" aria-hidden="true" />}
         {state.kind === "submitting" ? "Joining…" : "Join the club"}
       </button>
     </form>

@@ -234,7 +234,8 @@ a {
   transition:
     color var(--dur-2) var(--ease-out),
     border-color var(--dur-2) var(--ease-out),
-    transform var(--dur-2) var(--ease-out);
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-spring);
 }
 
 .btn::after {
@@ -248,22 +249,38 @@ a {
 }
 
 @media (hover: hover) {
-  .btn:hover::after {
+  .btn:not([disabled], [aria-disabled="true"]):hover::after {
     transform: translateY(0);
   }
-  .btn:hover {
+  .btn:not([disabled], [aria-disabled="true"]):hover {
     border-color: var(--gold-300);
   }
 }
 
-.btn:active {
-  transform: scale(0.98);
+/* Keyboard focus gets the same gold fill as hover, plus the focus ring. */
+.btn:focus-visible::after {
+  transform: translateY(0);
+}
+.btn:focus-visible {
+  border-color: var(--gold-300);
+  outline-offset: 4px;
+}
+
+.btn:not([disabled], [aria-disabled="true"]):active {
+  transform: scale(var(--press-scale));
+  transition-duration: var(--dur-press);
 }
 
 .btn[disabled],
 .btn[aria-disabled="true"] {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Busy (submitting): keep full strength so the spinner reads clearly. */
+.btn[aria-busy="true"] {
+  opacity: 0.85;
+  cursor: progress;
 }
 
 .btn--ghost {
@@ -273,9 +290,13 @@ a {
 }
 
 @media (hover: hover) {
-  .btn--ghost:hover {
+  .btn--ghost:not([disabled]):hover {
     color: var(--green-900);
   }
+}
+
+.btn--ghost:focus-visible {
+  color: var(--green-900);
 }
 
 .btn--green {
@@ -285,9 +306,13 @@ a {
 }
 
 @media (hover: hover) {
-  .btn--green:hover {
+  .btn--green:not([disabled]):hover {
     color: var(--green-900);
   }
+}
+
+.btn--green:focus-visible {
+  color: var(--green-900);
 }
 
 .btn--block {
@@ -316,9 +341,91 @@ a {
 }
 
 @media (hover: hover) {
-  .text-link:hover {
+  .text-link:not([disabled]):hover {
     background-size: 0% 1px;
     background-position: 100% 100%;
+  }
+}
+
+/* Focus mirrors hover so keyboard users get the same cue. */
+.text-link:focus-visible {
+  background-size: 0% 1px;
+  background-position: 100% 100%;
+}
+
+.text-link:not([disabled]):active {
+  opacity: 0.7;
+  transition: opacity var(--dur-press) linear;
+}
+
+.text-link[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Feedback primitives ---------- */
+/* Inline spinner for busy buttons. Under reduced motion it holds still as a
+   partial ring; the button label ("Joining…") still says what is happening. */
+.spinner {
+  flex: none;
+  width: 1.05em;
+  height: 1.05em;
+  border: 1.5px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* Skeleton block with a soft shimmer (static under reduced motion). */
+.skeleton {
+  display: block;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(100deg, var(--skeleton-base) 30%, var(--skeleton-shine) 50%, var(--skeleton-base) 70%) 0 0 / 300% 100%;
+  animation: shimmer 1.6s var(--ease-in-out) infinite;
+}
+
+.on-paper .skeleton,
+.surface-paper .skeleton {
+  --skeleton-base: color-mix(in oklab, var(--ink-900) 8%, transparent);
+  --skeleton-shine: color-mix(in oklab, var(--ink-900) 14%, transparent);
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+/* A state that just appeared (success, error, new step). */
+.state-enter {
+  animation: state-enter var(--dur-3) var(--ease-out) backwards;
+}
+
+@keyframes state-enter {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
+}
+
+/* Route change: opacity only, so fixed/pinned descendants are never re-parented
+   into a transformed containing block. */
+.page-enter {
+  animation: page-enter var(--dur-2) var(--ease-out) backwards;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
   }
 }
 
