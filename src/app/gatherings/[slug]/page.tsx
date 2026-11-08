@@ -31,6 +31,8 @@ export default async function GatheringPage({ params }: Props) {
   const adapter = getDataAdapter();
   const g = await getPublicGathering(adapter, slug);
   if (!g) notFound();
+  // Server Component: renders once per request, so reading the clock here is safe.
+  // eslint-disable-next-line react-hooks/purity
   const now = Date.now();
   const ended = now > Date.parse(g.endsAtUtc) || g.status === "past";
   const drink = g.drinkSlug ? await adapter.getDrink(g.drinkSlug) : null;

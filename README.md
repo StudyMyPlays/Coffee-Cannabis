@@ -11,6 +11,7 @@ npm run dev          # http://localhost:3000
 npm run build && npm start   # production build
 npm test             # unit tests (time/DST, data adapter, validation, admin)
 npm run typecheck
+npm run lint         # ESLint (Next core-web-vitals + TypeScript rules)
 npm run images       # re-optimize brand images after adding/replacing files in /assets
 ```
 

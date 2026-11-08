@@ -22,6 +22,8 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   const sp = await searchParams;
 
   const adapter = getDataAdapter();
+  // Server Component: renders once per request, so reading the clock here is safe.
+  // eslint-disable-next-line react-hooks/purity
   const now = Date.now();
   const [gatherings, drinks, memberCount] = await Promise.all([
     adapter.listGatherings(),
@@ -37,12 +39,14 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       <h1 className={styles.h1}>Gatherings &amp; drinks</h1>
       <p className={styles.muted}>
         {memberCount} founding member{memberCount === 1 ? "" : "s"} ·{" "}
+        {/* A file download from a route handler, not a page: a plain anchor is correct here. */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a className={styles.link} href="/admin/export/members">
           Download members (CSV)
         </a>
       </p>
       {sp.deleted && (
-        <p className={styles.bannerOk} role="status">
+        <p className={`${styles.bannerOk} state-enter`} role="status">
           Drink deleted.
         </p>
       )}

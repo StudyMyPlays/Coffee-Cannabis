@@ -29,7 +29,6 @@ export function track(event: AnalyticsEvent, params: Params = {}): void {
   try {
     window.gtag?.("event", event, params);
     if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
       console.debug("[analytics]", event, params);
     }
   } catch {
