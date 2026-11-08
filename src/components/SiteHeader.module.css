@@ -13,7 +13,7 @@
   content: "";
   position: absolute;
   inset: 0 0 -40%;
-  background: linear-gradient(to bottom, rgba(10, 40, 18, 0.55), transparent);
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--shade) 55%, transparent), transparent);
   pointer-events: none;
   transition: opacity var(--dur-3) var(--ease-out);
 }
@@ -82,7 +82,7 @@
   background-size: 0% 1px;
   background-position: 0 100%;
   background-repeat: no-repeat;
-  transition: background-size var(--dur-3) var(--ease-out);
+  transition: background-size var(--dur-2) var(--ease-out);
 }
 
 @media (hover: hover) {
@@ -103,7 +103,7 @@
 
 .nav a {
   transition:
-    background-size var(--dur-3) var(--ease-out),
+    background-size var(--dur-2) var(--ease-out),
     color var(--dur-2) var(--ease-out);
 }
 
@@ -125,7 +125,7 @@
   transition:
     border-color var(--dur-2) var(--ease-out),
     background-color var(--dur-2) var(--ease-out),
-    transform var(--dur-2) var(--ease-spring);
+    transform var(--dur-2) var(--ease-out);
 }
 
 .menuButton span {

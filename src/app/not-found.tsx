@@ -9,7 +9,7 @@ export default function NotFound() {
         <p>The page you were looking for isn&rsquo;t here. The people are back at the club.</p>
       </PageHero>
       <section className={styles.body}>
-        <div className="container">
+        <div className="container" data-reveal>
           <Link href="/" className="btn">
             Back to the club
           </Link>

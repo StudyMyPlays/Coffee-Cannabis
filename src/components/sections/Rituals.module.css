@@ -2,7 +2,7 @@
   position: relative;
   padding-block: var(--section-y);
   background:
-    radial-gradient(60% 40% at 85% 10%, rgba(74, 168, 98, 0.18), transparent 70%),
+    radial-gradient(60% 40% at 85% 10%, color-mix(in srgb, var(--green-400) 18%, transparent), transparent 70%),
     var(--green-800);
   overflow: hidden;
 }
@@ -72,16 +72,16 @@
    accent. Scale lives on the <img> so it never fights the parallax transform
    GSAP drives on .visual. Fine pointers only. */
 .visual img {
-  transition: scale var(--dur-4) var(--ease-out);
+  transition: scale var(--dur-3) var(--ease-out);
 }
 
 .visualWrap {
-  transition: outline-color var(--dur-3) var(--ease-out);
+  transition: outline-color var(--dur-2) var(--ease-hover);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .spread:hover .visual img {
-    scale: 1.04;
+    scale: var(--zoom-photo);
   }
   .spread:hover .visualWrap {
     outline-color: color-mix(in oklab, var(--accent) 70%, var(--gold-300));
@@ -102,10 +102,6 @@
   letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
   color: var(--gold-300);
-}
-
-.index span {
-  color: var(--cream-100);
 }
 
 .name {

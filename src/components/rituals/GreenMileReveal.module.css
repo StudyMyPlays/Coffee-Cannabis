@@ -28,13 +28,13 @@
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(210, 181, 120, 0.14), transparent 70%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--gold-300) 14%, transparent), transparent 70%);
   color: var(--gold-300);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
   touch-action: manipulation;
-  transition: transform var(--dur-3) var(--ease-out);
+  transition: transform var(--dur-2) var(--ease-out);
 }
 
 @media (hover: hover) {

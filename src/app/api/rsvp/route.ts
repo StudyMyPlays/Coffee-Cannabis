@@ -69,7 +69,7 @@ export async function POST(req: Request) {
           ok: true,
           status: "duplicate",
           rsvpStatus: r.status,
-          message: "You're already on the list — we've re-sent your confirmation.",
+          message: "You're already on the list. We've re-sent your confirmation.",
           gathering,
         },
         200,

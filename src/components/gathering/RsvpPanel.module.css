@@ -81,7 +81,7 @@
 .error {
   border: 1px solid var(--danger);
   color: var(--cream-50);
-  background: color-mix(in oklab, #7a2a1a 35%, transparent);
+  background: var(--danger-surface);
 }
 
 .form {

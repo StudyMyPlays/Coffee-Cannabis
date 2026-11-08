@@ -202,7 +202,7 @@ export function RsvpPanel({ gathering: initial }: { gathering: PublicGathering }
         )}
         {phase.kind === "waitlist" && (
           <p className={`${styles.success} state-enter`}>
-            <strong>You&rsquo;re on the waitlist{phase.position ? ` — number ${phase.position}` : ""}.</strong> If a spot
+            <strong>You&rsquo;re on the waitlist{phase.position ? `, number ${phase.position}` : ""}.</strong> If a spot
             opens, it&rsquo;s yours and we&rsquo;ll email you right away.
           </p>
         )}

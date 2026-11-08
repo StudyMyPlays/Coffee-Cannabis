@@ -20,7 +20,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import type { gsap as GSAP } from "gsap";
 import type { ScrollTrigger as ST } from "gsap/ScrollTrigger";
-import { MEDIA, MOTION } from "@/lib/motion";
+import { CURVES, MEDIA, MOTION } from "@/lib/motion";
 
 // GSAP is loaded after hydration (dynamic import) to keep it off the critical path.
 let gsap: typeof GSAP;
@@ -56,16 +56,24 @@ function setupReveals(reduce: boolean) {
     gsap.set(els, { opacity: 1, clearProps: "transform,clipPath" });
     return;
   }
+  // GSAP loads after hydration, so the page may already be scrolled (scroll
+  // restoration, an #anchor, a fast scroll on a short page). Anything above
+  // the viewport by then would never get an onEnter: show it at rest now.
+  const passed = els.filter((el) => el.getBoundingClientRect().bottom < 0);
+  if (passed.length) gsap.set(passed, { opacity: 1, clearProps: "transform,clipPath" });
+  const pending = els.filter((el) => !passed.includes(el));
   // Set every hidden state up front, then reveal in batches as they enter
   // the viewport — a handful of shared observers instead of one per element.
-  for (const el of els) gsap.set(el, revealVars(el).from);
-  ScrollTrigger.batch(els, {
+  for (const el of pending) gsap.set(el, revealVars(el).from);
+  ScrollTrigger.batch(pending, {
     start: "top 88%",
     once: true,
     onEnter: (batch) =>
       (batch as HTMLElement[]).forEach((el, i) => {
         const { to } = revealVars(el);
-        gsap.to(el, { ...to, delay: Number(el.dataset.revealDelay || 0) + i * MOTION.stagger });
+        // Cap the cascade: a fast scroll can batch dozens of elements, and
+        // nobody should wait seconds for content to appear.
+        gsap.to(el, { ...to, delay: Number(el.dataset.revealDelay || 0) + Math.min(i, MOTION.staggerMax) * MOTION.stagger });
       }),
   });
 }
@@ -164,14 +172,24 @@ export function MotionController() {
     const refresh = () => ScrollTrigger?.refresh();
 
     (async () => {
-      const [{ gsap: g }, { ScrollTrigger: s }] = await Promise.all([import("gsap"), import("gsap/ScrollTrigger")]);
+      const [{ gsap: g }, { ScrollTrigger: s }, { CustomEase }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+        import("gsap/CustomEase"),
+      ]);
       if (cancelled) return;
       gsap = g;
       ScrollTrigger = s;
-      gsap.registerPlugin(ScrollTrigger);
+      gsap.registerPlugin(ScrollTrigger, CustomEase);
+      // Same curves as the CSS tokens, so JS and CSS motion feel identical.
+      CustomEase.create(MOTION.ease.out, CURVES.out);
+      CustomEase.create(MOTION.ease.inOut, CURVES.inOut);
       mm = gsap.matchMedia();
+      // gsap.matchMedia only runs (and re-runs) the callback while at least one
+      // condition matches. reduce/motionOk are complementary, so it always runs
+      // — on phones and tablets too — and re-runs when any of them flips.
       mm.add(
-      { isDesktop: MEDIA.desktop, reduce: MEDIA.reduce },
+      { isDesktop: MEDIA.desktop, reduce: MEDIA.reduce, motionOk: MEDIA.motionOk },
       (ctx) => {
         const { isDesktop, reduce } = ctx.conditions as { isDesktop: boolean; reduce: boolean };
         setupReveals(reduce);

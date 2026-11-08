@@ -31,7 +31,7 @@ export function RecapCard({ g, drinkName }: { g: PublicGathering; drinkName?: st
         {quote && (
           <blockquote className={styles.quote}>
             <p>&ldquo;{quote.text}&rdquo;</p>
-            <footer>— {quote.name}</footer>
+            <footer>{quote.name}</footer>
           </blockquote>
         )}
         <ul className={styles.extras}>

@@ -27,9 +27,9 @@
   place-items: center;
   pointer-events: none;
   background:
-    radial-gradient(circle at 50% 50%, transparent 0 22%, rgba(15, 59, 28, 0.6) 70%),
-    repeating-linear-gradient(28deg, transparent 0 34px, rgba(210, 181, 120, 0.12) 34px 35px),
-    repeating-linear-gradient(-62deg, transparent 0 52px, rgba(210, 181, 120, 0.1) 52px 53px),
+    radial-gradient(circle at 50% 50%, transparent 0 22%, color-mix(in srgb, var(--green-900) 60%, transparent) 70%),
+    repeating-linear-gradient(28deg, transparent 0 34px, color-mix(in srgb, var(--gold-300) 12%, transparent) 34px 35px),
+    repeating-linear-gradient(-62deg, transparent 0 52px, color-mix(in srgb, var(--gold-300) 10%, transparent) 52px 53px),
     linear-gradient(160deg, var(--green-700), var(--green-900));
   transition: opacity var(--dur-4) var(--ease-out);
 }
@@ -45,7 +45,7 @@
   height: 14px;
   border-radius: 50%;
   background: var(--gold-200);
-  box-shadow: 0 0 0 4px rgba(226, 204, 152, 0.25);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold-200) 25%, transparent);
 }
 
 .areaPulse {
@@ -93,7 +93,7 @@
   rotate: -45deg;
   background: var(--gold-300);
   border: 2px solid var(--cream-50);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--shade) 35%, transparent);
 }
 
 .caption {
@@ -130,6 +130,12 @@
   background: var(--cream-100);
 }
 
+/* Library default is 29px; touch targets must be at least 44px. */
+.map :global(.maplibregl-ctrl-group button) {
+  width: 44px;
+  height: 44px;
+}
+
 .map :global(.maplibregl-ctrl-attrib) {
   font-size: 10px;
 }
@@ -137,7 +143,7 @@
 .map :global(.maplibregl-cooperative-gesture-screen) {
   font-family: var(--font-sans);
   font-size: var(--step--1);
-  background: rgba(15, 59, 28, 0.75);
+  background: color-mix(in srgb, var(--green-900) 75%, transparent);
 }
 
 .unavailable {

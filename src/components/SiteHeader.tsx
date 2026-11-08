@@ -119,7 +119,7 @@ export function SiteHeader() {
   return (
     <header ref={headerRef} className={`${styles.header} ${solid || menuOpen ? styles.solid : ""}`}>
       <div className={styles.inner}>
-        <Link href="/" className={styles.home} aria-label="Coffee & Cannabis Club — home" onClick={closeMenu}>
+        <Link href="/" className={styles.home} aria-label="Coffee & Cannabis Club, home" onClick={closeMenu}>
           <CCMark className={styles.mark} label={null} />
           <span className={styles.wordmark} aria-hidden="true">
             Coffee &amp; Cannabis Club

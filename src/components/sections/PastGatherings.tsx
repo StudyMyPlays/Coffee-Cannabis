@@ -12,9 +12,6 @@ export function PastGatherings({ past, drinks }: { past: PublicGathering[]; drin
       <div className="container">
         <header className={styles.head}>
           <div>
-            <p className="eyebrow" data-reveal>
-              Past gatherings
-            </p>
             <h2 id="past-title" className={`display ${styles.title}`} data-reveal>
               The archive
             </h2>

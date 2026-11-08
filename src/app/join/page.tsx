@@ -18,7 +18,7 @@ export default function JoinPage() {
       </PageHero>
       <section className={styles.body}>
         <div className="container">
-          <div className={styles.panel}>
+          <div className={styles.panel} data-reveal>
             <JoinForm source="join_page" idPrefix="joinpage" />
           </div>
         </div>

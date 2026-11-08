@@ -2,7 +2,6 @@ import { PaisleyDivider } from "@/components/paisley";
 import { DrinkDialog } from "@/components/rituals/DrinkDialog";
 import { DrinkVisual } from "@/components/rituals/DrinkVisual";
 import { GreenMileReveal } from "@/components/rituals/GreenMileReveal";
-import { pad2 } from "@/lib/format";
 import type { Drink } from "@/lib/data/types";
 import styles from "./Rituals.module.css";
 
@@ -24,7 +23,7 @@ export function Rituals({ drinks, secret }: { drinks: Drink[]; secret: Drink | n
         </header>
 
         <ol className={styles.list}>
-          {drinks.map((d, i) => (
+          {drinks.map((d) => (
             <li key={d.slug} className={styles.spread} style={{ "--accent": d.accent } as React.CSSProperties}>
               <div className={styles.visualWrap} data-reveal="mask">
                 <div className={styles.visual} data-parallax="0.12">
@@ -33,7 +32,7 @@ export function Rituals({ drinks, secret }: { drinks: Drink[]; secret: Drink | n
               </div>
               <div className={styles.copy}>
                 <p className={styles.index} data-reveal>
-                  <span>{pad2(i + 1)}</span> / {pad2(drinks.length)} · {d.role}
+                  {d.role}
                 </p>
                 <h3 className={`display ${styles.name}`} data-reveal>
                   {d.name}
